@@ -1,0 +1,491 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Christy & Tim · Forever</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;700&family=Noto+Serif+TC:wght@300;500;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"><style>
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.num{font-family:'Plus Jakarta Sans',sans-serif;font-variant-numeric:tabular-nums}
+.zh{word-break:keep-all;line-break:strict}
+section{padding:110px 6vw;position:relative}.wrap{max-width:1080px;margin:0 auto}
+.rv{opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}.rv.in{opacity:1;transform:none}
+.tilt{transform-style:preserve-3d;will-change:transform;position:relative}
+.tilt .glare{position:absolute;inset:0;border-radius:inherit;pointer-events:none;mix-blend-mode:overlay;opacity:0;transition:opacity .4s}
+.tilt:hover .glare{opacity:1}
+.sh{display:flex;align-items:baseline;gap:18px;margin-bottom:48px;flex-wrap:wrap}.sh .n{font-size:14px;letter-spacing:.3em}
+form.rsvp{display:grid;gap:16px;max-width:560px}form.rsvp label{display:grid;gap:6px;font-size:14px}
+form.rsvp input,form.rsvp select,form.rsvp textarea{font:inherit;padding:12px 14px;border-radius:6px;border:1px solid currentColor;background:transparent;color:inherit}
+form.rsvp select option{color:#222}
+details{border-bottom:1px solid currentColor;padding:18px 0}details summary{cursor:pointer;list-style:none;font-weight:500}details p{margin-top:10px;opacity:.8;line-height:1.8}
+
+/* 相片畫廊 Gallery */
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.gal>div{aspect-ratio:4/5;border-radius:8px;position:relative;overflow:hidden;cursor:pointer;background:#222}
+.gal>div img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.25,.8,.25,1),filter .7s}
+.gal>div:hover img{transform:scale(1.06);filter:brightness(1.05)}
+.gal>div span{position:absolute;left:14px;bottom:12px;font-size:12px;letter-spacing:.15em;z-index:2;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);padding:4px 10px;border-radius:20px;pointer-events:none}
+.gal>div:after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 45%);opacity:.85;pointer-events:none}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.map{aspect-ratio:16/9;border-radius:10px;position:relative;overflow:hidden}
+.ph{opacity:.7;font-size:.9em}
+
+/* 倒數計時模組 */
+.cd-section{margin:36px 0 20px;text-align:center}
+.cd-title{font-size:13px;letter-spacing:.3em;text-transform:uppercase;opacity:.8;margin-bottom:16px}
+.countdown-box{display:inline-flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.cd-unit{min-width:76px;padding:14px 10px;border-radius:10px;border:1px solid currentColor;background:rgba(255,255,255,.04);backdrop-filter:blur(6px);text-align:center}
+.cd-val{font-size:clamp(26px,4vw,38px);font-weight:700;line-height:1}
+.cd-lbl{font-size:11px;letter-spacing:.2em;opacity:.75;margin-top:6px;text-transform:uppercase}
+
+/* 加入日曆按鈕 */
+.cal-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.cal-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:30px;font-size:13px;letter-spacing:.15em;text-decoration:none;border:1px solid currentColor;color:inherit;transition:all .3s;cursor:pointer;background:transparent}
+.cal-btn:hover{background:rgba(255,255,255,.15);transform:translateY(-2px)}
+.cal-btn svg{width:16px;height:16px;fill:currentColor}
+
+/* 懸浮浪漫音樂播放器 */
+.bgm-btn{position:fixed;top:22px;right:22px;z-index:90;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(18,18,18,.65);backdrop-filter:blur(10px);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 25px rgba(0,0,0,.35);transition:all .3s}
+.bgm-btn:hover{transform:scale(1.08);background:rgba(18,18,18,.85)}
+.bgm-btn.playing svg{animation:spinMusic 6s linear infinite}
+.bgm-tooltip{position:absolute;right:52px;white-space:nowrap;font-size:11px;letter-spacing:.15em;background:rgba(0,0,0,.75);padding:4px 10px;border-radius:12px;opacity:0;pointer-events:none;transition:opacity .3s;color:#fff}
+.bgm-btn:hover .bgm-tooltip{opacity:1}
+@keyframes spinMusic{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* 全螢幕相片燈箱 (Lightbox) */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s;padding:24px}
+.lightbox.open{opacity:1;pointer-events:auto}
+.lightbox img{max-width:90vw;max-height:82vh;object-fit:contain;border-radius:6px;box-shadow:0 30px 80px rgba(0,0,0,.8);transition:transform .3s}
+.lightbox .lb-cap{color:#f0f0f0;font-size:14px;letter-spacing:.2em;margin-top:16px;text-align:center;font-family:'Plus Jakarta Sans','Noto Serif TC',sans-serif}
+.lightbox .lb-close{position:absolute;top:24px;right:28px;background:none;border:none;color:#fff;font-size:32px;cursor:pointer;line-height:1;opacity:.8;transition:opacity .2s}
+.lightbox .lb-close:hover{opacity:1}
+.lightbox .lb-prev,.lightbox .lb-next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.1);border:none;color:#fff;width:50px;height:50px;border-radius:50%;display:grid;place-items:center;cursor:pointer;font-size:20px;transition:background .2s}
+.lightbox .lb-prev{left:24px}.lightbox .lb-next{right:24px}
+.lightbox .lb-prev:hover,.lightbox .lb-next:hover{background:rgba(255,255,255,.25)}
+
+/* 故事時間軸相片 */
+.story-photo{width:100%;height:180px;border-radius:6px;overflow:hidden;margin-top:14px;position:relative;cursor:pointer}
+.story-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.story-photo:hover img{transform:scale(1.05)}
+
+@media(max-width:760px){
+  section{padding:80px 6vw}.grid2{grid-template-columns:1fr}
+  .gal{grid-template-columns:1fr 1fr}
+  .lightbox .lb-prev{left:10px}.lightbox .lb-next{right:10px}
+}
+@media(max-width:480px){
+  .gal{grid-template-columns:1fr}
+  .countdown-box{gap:8px}
+  .cd-unit{min-width:64px;padding:10px 6px}
+  .cd-val{font-size:24px}
+}
+body.shot{min-height:0}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+body{background:#0e0d0c;color:#ece4d4;font-family:'Plus Jakarta Sans','Noto Serif TC',sans-serif;font-weight:300}
+.ch{color:#d9bf8c}.serif{font-family:'Playfair Display','Noto Serif TC',serif}
+#lead{position:fixed;inset:0;z-index:50;background:#0e0d0c;display:grid;place-items:center;transition:opacity .8s,visibility .8s}
+#lead.done{opacity:0;visibility:hidden}
+#lead svg{width:220px}#lead .sw{transform-origin:110px 110px;animation:sweep 1s linear 3}
+@keyframes sweep{to{transform:rotate(360deg)}}
+#lead .n{font-size:90px;font-weight:700}
+.hero{min-height:min(100vh,960px);display:grid;place-items:center;text-align:center;overflow:hidden;background:radial-gradient(ellipse at 50% 40%,#2a241b,#0e0d0c 70%)}
+.hero h1{font-size:clamp(48px,9vw,120px);font-weight:400;letter-spacing:.02em}
+.big{display:flex;justify-content:center;align-items:center;gap:3vw;font-size:clamp(60px,12vw,160px);font-weight:200;line-height:1;margin-bottom:20px}
+.big .m{transform:scaleX(-1);display:inline-block;opacity:.25}
+.grain{position:fixed;inset:0;pointer-events:none;opacity:.07;z-index:40;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.sh h2{font-family:'Playfair Display','Noto Serif TC';font-weight:400;font-size:clamp(32px,4.5vw,52px)}.sh .n{color:#d9bf8c}
+
+.strip::before,.strip::after{content:''}
+.film{background:#1b1916;position:relative;padding:30px 0}
+.film:before,.film:after{content:'';position:absolute;left:0;right:0;height:14px;background:repeating-linear-gradient(90deg,transparent 0 12px,#0e0d0c 12px 26px);}
+.film:before{top:8px}.film:after{bottom:8px}
+.frames{display:flex;gap:14px;overflow-x:auto;padding:0 6vw;scroll-snap-type:x mandatory;scrollbar-width:none}
+.fr{flex:0 0 320px;scroll-snap-align:center;background:#0e0d0c;padding:14px;border-radius:4px;border:1px solid #d9bf8c33;cursor:pointer}
+.fr .img{aspect-ratio:3/2;border-radius:2px;position:relative;overflow:hidden}
+.fr .img img{width:100%;height:100%;object-fit:cover;display:block;filter:sepia(.2) contrast(1.05);transition:transform .5s}
+.fr:hover .img img{transform:scale(1.05)}
+.fr .img b{position:absolute;right:10px;top:8px;font-size:12px;color:#d9bf8c;font-weight:500;background:rgba(0,0,0,.6);padding:2px 6px;border-radius:3px;backdrop-filter:blur(2px)}
+.fr .d{font-size:22px;margin-top:12px}.fr h3{font-weight:500;font-size:16px;margin:6px 0}.fr p{font-size:14px;opacity:.7;line-height:1.7}
+.pass{display:grid;grid-template-columns:2.2fr 1fr;background:linear-gradient(135deg,#f3ead7,#e2d3b2);color:#1b1916;border-radius:18px;max-width:900px;margin:0 auto;box-shadow:0 40px 80px #000a;overflow:hidden}
+.pass .main{padding:36px 40px;border-right:2px dashed #1b191655;position:relative}
+.pass .stub{padding:36px 28px;display:grid;align-content:space-between;gap:20px}
+.pass .lab{font-size:11px;letter-spacing:.25em;opacity:.6}.pass .v{font-size:20px;font-weight:600}
+.route{display:flex;align-items:center;gap:18px;margin:22px 0}.route .c{font-family:'Playfair Display';font-size:clamp(28px,4vw,46px);font-weight:700}
+.route .ln{flex:1;height:1px;background:#1b1916;position:relative;min-width:40px}.route .ln:after{content:'✈';position:absolute;left:50%;top:-12px;font-size:18px}
+.pf{display:grid;grid-template-columns:repeat(4,auto);gap:18px 26px}
+.bars{height:54px;background:repeating-linear-gradient(90deg,#1b1916 0 2px,transparent 2px 4px,#1b1916 4px 7px,transparent 7px 9px,#1b1916 9px 10px,transparent 10px 13px)}
+.det{border:1px solid #d9bf8c44;padding:34px;border-radius:12px;background:#161412}
+.det h3{font-family:'Playfair Display','Noto Serif TC';font-weight:400;font-size:24px;margin-bottom:12px;color:#d9bf8c}.det p{line-height:1.9}
+.map{background:radial-gradient(circle at 55% 45%,#d9bf8c33,transparent 30%),repeating-radial-gradient(circle at 55% 45%,transparent 0 30px,#d9bf8c18 30px 31px),#161412;border:1px solid #d9bf8c33}
+.map p{position:absolute;bottom:16px;width:100%;text-align:center;font-size:14px;opacity:.7}
+.cd-unit{border-color:#d9bf8c55;background:rgba(27,25,22,.8);color:#ece4d4}
+.cd-val{color:#d9bf8c}
+.cal-btn{border-color:#d9bf8c;color:#d9bf8c}
+.cal-btn:hover{background:#d9bf8c20;color:#fff}
+button.b{font:inherit;padding:14px;background:#d9bf8c;color:#0e0d0c;border:0;border-radius:40px;font-weight:600;letter-spacing:.2em;cursor:pointer}
+button.b:hover{background:#f3ead7}
+form.rsvp input,form.rsvp select,form.rsvp textarea{border-color:#d9bf8c55}
+details{border-color:#d9bf8c33}
+footer{text-align:center;padding:60px 6vw 90px;font-size:13px;letter-spacing:.3em;opacity:.7}
+@media(max-width:760px){.pass{grid-template-columns:1fr}.pass .main{border-right:0;border-bottom:2px dashed #1b191655;padding:28px 24px}.pf{grid-template-columns:repeat(2,auto)}.fr{flex-basis:78vw}.route{gap:10px}.route .c{font-size:24px}.route .ln{min-width:24px}}
+.shot .mband,.shot .scrub{height:auto!important}.shot .mband .stk{position:relative;height:760px}.shot .scrub .stk2{position:relative;height:auto;padding:40px 0}
+@media(max-width:760px){.vine{opacity:.35;left:-30px}}.mband{height:180vh;position:relative}.mband .stk{position:sticky;top:0;height:100vh;display:grid;place-items:center;perspective:1400px;overflow:hidden}
+.mcoin{position:relative;transform-style:preserve-3d;font-family:'Plus Jakarta Sans';font-variant-numeric:tabular-nums;font-weight:200;font-size:clamp(90px,22vw,300px);line-height:1}
+.mcoin span{display:block;backface-visibility:hidden}.mcoin .b{position:absolute;inset:0;transform:rotateY(180deg)}
+.mcap{position:absolute;bottom:12vh;width:100%;text-align:center;letter-spacing:.3em;font-size:14px;word-break:keep-all}
+.mrefl{transform:scaleY(-1);opacity:.12;mask-image:linear-gradient(transparent 40%,#000);-webkit-mask-image:linear-gradient(transparent 40%,#000);font-family:'Plus Jakarta Sans';font-weight:200;font-size:clamp(90px,22vw,300px);line-height:1;font-variant-numeric:tabular-nums;margin-top:-.15em}
+.hero:before{content:'';position:absolute;left:50%;top:-10%;width:140%;height:120%;transform:translateX(-50%);background:conic-gradient(from 168deg at 50% 0%,transparent 0deg,#fff3d61a 8deg,#fff3d633 12deg,#fff3d61a 16deg,transparent 24deg);animation:flick 3.2s steps(1) infinite;pointer-events:none}
+.hero:after{content:'';position:absolute;inset:0;background:#fff3d6;opacity:0;animation:flick2 5s steps(1) infinite;pointer-events:none;mix-blend-mode:overlay}
+@keyframes flick{0%,100%{opacity:1}7%{opacity:.6}9%{opacity:1}43%{opacity:.85}45%{opacity:1}71%{opacity:.5}72%{opacity:1}}
+@keyframes flick2{0%,100%{opacity:0}31%{opacity:.05}32%{opacity:0}77%{opacity:.08}78%{opacity:0}}
+.scrub{height:260vh;position:relative}.scrub .stk2{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.scrub .frames{overflow:visible;will-change:transform;padding-left:8vw}.fr{flex-basis:360px}
+.ctr{font-size:12px;letter-spacing:.3em;color:#d9bf8c;text-align:center;margin-top:16px}
+.tk{display:grid;grid-template-columns:1fr 70px;border-radius:14px;overflow:visible;position:relative}
+.tk form.rsvp{background:#161412;padding:28px;border-radius:14px 0 0 14px;border:1px solid #d9bf8c44;border-right:2px dashed #d9bf8c66}
+.tk .stb{background:#d9bf8c;color:#0e0d0c;border-radius:0 14px 14px 0;display:grid;place-items:center;writing-mode:vertical-rl;letter-spacing:.3em;font-weight:600;font-size:13px;transform-origin:0% 100%;transition:transform 1.1s cubic-bezier(.5,-.3,.4,1),opacity 1.1s}
+.tk.torn .stb{transform:translate(30px,40px) rotate(24deg);opacity:.0}
+.tk.torn form.rsvp{animation:jolt .3s}@keyframes jolt{30%{transform:translateX(-4px) rotate(-.4deg)}}
+.gal>div{background-clip:content-box!important;padding:12px 12px 46px;background-color:#f3ead7;border-radius:3px;box-shadow:0 20px 40px #0008;rotate:var(--r,0deg)}
+.gal>div:before{content:'';position:absolute;inset:12px 12px 46px;background:#2a241b;transition:opacity 3.5s ease-in 0.3s}
+.gal>div.in:before{opacity:0}
+.gal>div:after{content:'';position:absolute;inset:12px 12px 46px;backdrop-filter:sepia(1) blur(6px) brightness(1.6);-webkit-backdrop-filter:sepia(1) blur(6px) brightness(1.6);transition:backdrop-filter 4s,-webkit-backdrop-filter 4s;pointer-events:none}
+.gal>div.in:after{backdrop-filter:none;-webkit-backdrop-filter:none}
+.gal span{color:#5a4630!important;bottom:14px!important;font-family:'Playfair Display';font-style:italic;letter-spacing:.05em!important;font-size:14px!important}
+@media(max-width:760px){.scrub{height:auto}.scrub .stk2{position:static;height:auto}.scrub .frames{overflow-x:auto;transform:none!important;padding-left:6vw}.fr{flex-basis:78vw}.tk{grid-template-columns:1fr 46px}.tk form.rsvp{padding:20px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}</style></head><body><div class="grain"></div><div id="lead"><div style="position:relative;display:grid;place-items:center"><svg viewBox="0 0 220 220"><circle cx="110" cy="110" r="100" fill="none" stroke="#d9bf8c55"/><circle cx="110" cy="110" r="80" fill="none" stroke="#d9bf8c33"/><line x1="0" y1="110" x2="220" y2="110" stroke="#d9bf8c33"/><line x1="110" y1="0" x2="110" y2="220" stroke="#d9bf8c33"/><path class="sw" d="M110 110 L110 10 A100 100 0 0 1 210 110z" fill="#d9bf8c22"/></svg><div class="n num ch" id="cnt" style="position:absolute">3</div></div></div>
+<section class="hero"><div class="rv"><div class="big num ch"><span>1.23</span><span style="font-size:.3em;opacity:.6">↔</span><span>3.21</span></div>
+<p style="letter-spacing:.6em;font-size:13px" class="ch">A LOVE STORY IN 35MM · 愛情菲林</p><h1 class="serif">Christy &amp; Tim</h1><p style="margin-top:18px;letter-spacing:.3em"><span class="num">SAT 23 JAN 2027</span> · <span class="zh">地點待定 Venue TBC</span></p></div></section>
+
+<!-- 菲林倒數計時 -->
+<section style="padding:40px 6vw 0"><div class="wrap"><div class="cd-section rv">
+  <div class="cd-title num">COUNTDOWN TO TAKE OFF · 啟程倒計時</div>
+  <div class="countdown-box num">
+    <div class="cd-unit"><div class="cd-val cd-val-d">000</div><div class="cd-lbl">天 DAYS</div></div>
+    <div class="cd-unit"><div class="cd-val cd-val-h">00</div><div class="cd-lbl">時 HRS</div></div>
+    <div class="cd-unit"><div class="cd-val cd-val-m">00</div><div class="cd-lbl">分 MIN</div></div>
+    <div class="cd-unit"><div class="cd-val cd-val-s">00</div><div class="cd-lbl">秒 SEC</div></div>
+  </div>
+</div></div></section>
+
+<section style="padding-left:0;padding-right:0"><div class="wrap" style="padding:0 6vw"><div class="sh rv"><span class="n num">01</span><h2>Our Story</h2><span class="zh">我們的故事</span></div><p class="rv zh serif" style="font-size:22px;margin-bottom:36px;font-style:italic">由 <span class="num">3.21</span> 到 <span class="num">1.23</span> — rewind the reel, the numbers read the same way back.</p></div>
+<div class="scrub"><div class="stk2"><div class="film"><div class="frames"><div class="fr tilt rv" data-cap="FRAME 01A · 03.21 遇見">
+  <div class="img">
+    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" alt="Tim 的生日 · Tim's birthday" loading="lazy">
+    <b class="num">01A</b>
+  </div>
+  <div class="d num ch">03.21</div>
+  <h3 class="zh">Tim 的生日 · Tim's birthday</h3>
+  <p class="zh">故事由呢個春天日子開始。一組奇妙的數字 03.21，在時光裡悄悄埋下了相遇的伏線。</p>
+</div><div class="fr tilt rv" data-cap="FRAME 02A · 黑白光影 初心">
+  <div class="img">
+    <img src="https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=800&q=80" alt="相遇與心動 · First met" loading="lazy">
+    <b class="num">02A</b>
+  </div>
+  <div class="d num ch">初遇</div>
+  <h3 class="zh">相遇與心動 · First met</h3>
+  <p class="zh">那天在微風微醺的咖啡香裡初次相遇，對視的一刻，好像彼此已經認識了很久。</p>
+</div><div class="fr tilt rv" data-cap="FRAME 03A · 夕陽許諾 誓約">
+  <div class="img">
+    <img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=800&q=80" alt="承諾終生 · The proposal" loading="lazy">
+    <b class="num">03A</b>
+  </div>
+  <div class="d num ch">求婚</div>
+  <h3 class="zh">承諾終生 · The proposal</h3>
+  <p class="zh">在滿天星光下許下相伴一生的誓約。「執子之手，與子偕老」，未來的每一天都有你。</p>
+</div><div class="fr tilt rv" data-cap="FRAME 04A · 2027.01.23 永遠">
+  <div class="img">
+    <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=800&q=80" alt="婚禮大喜 · The wedding" loading="lazy">
+    <b class="num">04A</b>
+  </div>
+  <div class="d num ch">2027.01.23</div>
+  <h3 class="zh">婚禮大喜 · The wedding</h3>
+  <p class="zh">由 3.21 到 1.23 — 數字倒轉，剛好係我哋。翻轉歲月，愛意始終如一。</p>
+</div></div></div><p class="ctr num" id="fc">FRAME 01 / 04 · 0123 ↔ 0321</p></div></div></section><div class="mband"><div class="stk"><div><div class="mcoin" id="mcoin"><span class="f">1.23</span><span class="b">3.21</span></div><div class="mrefl" id="mrefl">1.23</div></div><p class="mcap zh">REWIND · 3.21 → 1.23 · 倒帶都係你</p></div></div>
+
+<section><div class="wrap"><div class="sh rv"><span class="n num">02</span><h2>Boarding Pass</h2><span class="zh">登機證 · 邀請</span></div>
+<div class="pass tilt rv"><div class="main"><div class="lab">INVITATION · 誠邀閣下登上愛情航班</div><div class="route"><span class="c">CHRISTY &amp; TIM</span><span class="ln"></span><span class="c">FOREVER</span></div>
+<div class="pf"><div><div class="lab">DATE</div><div class="v num">2027.01.23</div></div><div><div class="lab">BOARDING</div><div class="v num">15:30</div></div><div><div class="lab">FLIGHT</div><div class="v num">CT0123</div></div><div><div class="lab">GATE</div><div class="v zh">LOVE01</div></div></div></div>
+<div class="stub"><div><div class="lab">SEAT</div><div class="v num">03 · 21</div></div><svg viewBox="0 0 200 200" width="110" height="110" aria-hidden="true"><defs><path id="ct" d="M28,100 a72,72 0 0,1 144,0"/><path id="bt" d="M18,100 a82,82 0 0,0 164,0"/></defs>
+<circle cx="100" cy="100" r="96" fill="none"/><circle cx="100" cy="100" r="86" fill="none" stroke="#8a6d45" stroke-width="1.5" stroke-dasharray="2 4"/>
+<text font-family="'Plus Jakarta Sans',sans-serif" font-size="15" letter-spacing="5" fill="#8a6d45"><textPath href="#ct" startOffset="50%" text-anchor="middle">ADMIT TWO</textPath></text>
+<text font-family="'Plus Jakarta Sans',sans-serif" font-size="15" letter-spacing="5" fill="#8a6d45"><textPath href="#bt" startOffset="50%" text-anchor="middle" dominant-baseline="hanging">↔ 0321 ↔</textPath></text>
+<text x="100" y="114" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="42" font-weight="700" fill="#8a6d45">0123</text></svg><div class="bars"></div></div></div></div></section>
+
+<section><div class="wrap"><div class="sh rv"><span class="n num">03</span><h2>The Day</h2><span class="zh">婚禮詳情</span></div><div class="grid2">
+<div class="det tilt rv"><h3>Ceremony · 菲林放映與證婚</h3><p class="zh"><span class="num">2027.01.23 · 15:30</span><br>神秘菲林放映場地 (Venue TBC)<br>地址稍後透過登機確認發送<br><span style="opacity:.7;font-size:13px">見證 35mm 菲林故事定格一刻</span></p></div>
+<div class="det tilt rv"><h3>Banquet · 慶祝晚宴</h3><p class="zh">迎賓入場 <span class="num">18:00</span> · 晚宴 <span class="num">19:30</span><br>私人宴會酒會空間 (Venue TBC)<br>音樂、美酒、菲林與老朋友<br><span style="opacity:.7;font-size:13px">Cocktails &amp; Dinner with Christy &amp; Tim</span></p></div></div>
+<div class="cal-actions rv">
+  <a class="cal-btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Christy+%26+Tim+Wedding+%E5%A9%9A%E7%A6%AE%E5%BA%86%E5%85%B8&dates=20270123T030000Z/20270123T150000Z&details=0123+%E2%86%94+0321+%E7%94%B1+3.21+%E5%88%B0+1.23%EF%BC%8C%E5%80%92%E8%BD%89%E9%83%BD%E4%BF%82%E6%88%91%E5%93%87%E3%80%82Christy+%26+Tim+%E7%B5%90%E5%A9%9A%E5%A4%A7%E5%96%9C%E4%B9%8B%E6%97%A5%EF%BC%81&location=Hong+Kong" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 002 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4H7v-2h2v2zm4 4H7v-2h2v2zm4 0h-2v-2h2v2z"/></svg>
+    加到 Google 日曆
+  </a>
+  <button class="cal-btn" onclick="downloadICS()" type="button">
+    <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+    下載 Apple / iCal (.ics)
+  </button>
+</div>
+</div></section>
+
+<section><div class="wrap"><div class="sh rv"><span class="n num">04</span><h2>Venue</h2><span class="zh">場地與導航</span></div><div class="map rv"><p class="zh" style="display:flex;justify-content:center;align-items:center;gap:12px;width:100%"><a href="https://maps.google.com/?q=The+Murray+Hong+Kong" target="_blank" rel="noopener" style="color:#d9bf8c;font-weight:600;text-decoration:underline">在 Google 地圖打開 (Open in Google Maps) →</a></p></div></div></section>
+
+<section><div class="wrap grid2"><div class="rv"><div class="sh"><span class="n num">05</span><h2>Dress Code</h2></div><p class="zh" style="line-height:1.9">Black Tie Optional / Cinematic Retro<br>電影感復古正裝。<br>建議色調：經典黑、香檳金、暖大地深啡。</p><div style="display:flex;gap:14px;margin-top:20px"><i style="width:56px;height:56px;border-radius:50%;background:#000;box-shadow:0 0 0 1px #d9bf8c" title="經典黑"></i><i style="width:56px;height:56px;border-radius:50%;background:#d9bf8c" title="香檳金"></i><i style="width:56px;height:56px;border-radius:50%;background:#5a4630" title="深啡色"></i></div></div>
+<div class="rv"><div class="sh"><span class="n num">06</span><h2>RSVP</h2></div><div class="tk rv"><form class="rsvp"><label>姓名 Name<input required placeholder="你的名字 Your name"></label>
+<label>出席 Attendance<select><option>欣然出席 Joyfully attend</option><option>未能出席 Regretfully decline</option></select></label>
+<label>人數 Guests<input class="num" type="number" min="1" max="6" value="1"></label>
+<label>飲食需要 Dietary notes<textarea rows="3" placeholder="素食 / 過敏 / 其他備註 Vegetarian / allergies"></textarea></label>
+<button class="b">送出回覆 Send RSVP</button><p class="ok zh" hidden style="color:#d4a849;font-weight:700;margin-top:10px">多謝你的回覆！我們期待在 2027.01.23 與你相聚！❤️<br><span style="font-size:12px;opacity:.8">（示範表單，已收錄回覆）</span></p></form><div class="stb num">ADMIT ONE · CT0123</div></div></div></div></section>
+
+<section><div class="wrap"><div class="sh rv"><span class="n num">07</span><h2>Gallery</h2><span class="zh">菲林相片集 · 點擊查看大圖</span></div><div class="gal"><div class="rv" style="--r:-2deg" data-cap="35mm · 街角回眸">
+  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=80" alt="35mm · 街角回眸" loading="lazy">
+  <span class="num">35mm · 街角回眸</span>
+</div><div class="rv" style="--r:1.5deg" data-cap="B&W · 光影留白">
+  <img src="https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=1000&q=80" alt="B&W · 光影留白" loading="lazy">
+  <span class="num">B&W · 光影留白</span>
+</div><div class="rv" style="--r:-1deg" data-cap="Golden Hour · 奔向黃昏">
+  <img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=1000&q=80" alt="Golden Hour · 奔向黃昏" loading="lazy">
+  <span class="num">Golden Hour · 奔向黃昏</span>
+</div><div class="rv" style="--r:2deg" data-cap="Ring Detail · 恆久印記">
+  <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1000&q=80" alt="Ring Detail · 恆久印記" loading="lazy">
+  <span class="num">Ring Detail · 恆久印記</span>
+</div><div class="rv" style="--r:-1.5deg" data-cap="Candid · 最自然的你">
+  <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1000&q=80" alt="Candid · 最自然的你" loading="lazy">
+  <span class="num">Candid · 最自然的你</span>
+</div><div class="rv" style="--r:1deg" data-cap="Forever Love · 相伴同行">
+  <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1000&q=80" alt="Forever Love · 相伴同行" loading="lazy">
+  <span class="num">Forever Love · 相伴同行</span>
+</div></div></div></section>
+
+<section><div class="wrap"><div class="sh rv"><span class="n num">08</span><h2>FAQ</h2><span class="zh">常見問題</span></div><details class="rv"><summary class="zh">可以帶小朋友嗎？ Can we bring kids?</summary><p class="zh">歡迎全家蒞臨，但請提前於 RSVP 告知人數以便我們安排座位 · Please let us know the guest count in RSVP so we can arrange seats!</p></details><details class="rv"><summary class="zh">有冇泊車位？ Is parking available?</summary><p class="zh">場地提供代客泊車及鄰近停車場優惠，詳細停車指引稍後透過電郵/WhatsApp 發送 · Parking info will be sent closer to the date.</p></details><details class="rv"><summary class="zh">禮物 / 人情安排？ Gifts?</summary><p class="zh">大家的祝福與蒞臨是最好的禮物。若想送上心意，現場設有人情箱與電子禮金（PayMe / FPS）· Your presence is our best present!</p></details><details class="rv"><summary class="zh">RSVP 截止日期？ RSVP deadline?</summary><p class="zh">請於 2026 年 11 月 30 日前填妥回覆，讓我們為大家準備最佳筵席 · Please RSVP by 30 Nov 2026.</p></details></div></section>
+
+<footer class="num">CT0123 ↔ 0321 · THE END · 完</footer>
+<!-- 相片燈箱組件 -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose" aria-label="關閉">&times;</button>
+  <button class="lb-prev" id="lbPrev" aria-label="上一張">&#10094;</button>
+  <img id="lbImg" src="" alt="婚禮相片">
+  <div class="lb-cap" id="lbCap"></div>
+  <button class="lb-next" id="lbNext" aria-label="下一張">&#10095;</button>
+</div>
+
+<!-- 浪漫音樂播放器 -->
+<div class="bgm-btn" id="bgmBtn" title="浪漫背景音樂 BGM">
+  <span class="bgm-tooltip">浪漫音樂 BGM</span>
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M9 18V5l12-2v13"></path>
+    <circle cx="6" cy="18" r="3"></circle>
+    <circle cx="18" cy="16" r="3"></circle>
+  </svg>
+</div>
+
+<script>
+// 1. 視口滾動動畫觀察器
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+// 2. 3D Tilt 卡片效果
+document.querySelectorAll('.tilt').forEach(card=>{
+  if(!card.querySelector('.glare')){const g=document.createElement('div');g.className='glare';card.appendChild(g)}
+  const g=card.querySelector('.glare');let tx=0,ty=0,x=0,y=0,vx=0,vy=0,raf=null,gx=50,gy=50;
+  const step=()=>{const k=.08,d=.78;vx=(vx+(tx-x)*k)*d;vy=(vy+(ty-y)*k)*d;x+=vx;y+=vy;
+    card.style.transform=`perspective(1000px) rotateX(${y}deg) rotateY(${x}deg)`;
+    g.style.background=`radial-gradient(circle at ${gx}% ${gy}%,rgba(255,255,255,.75),rgba(255,255,255,0) 55%)`;
+    if(Math.abs(vx)+Math.abs(vy)+Math.abs(tx-x)+Math.abs(ty-y)>.01)raf=requestAnimationFrame(step);else raf=null};
+  const kick=()=>{if(!raf)raf=requestAnimationFrame(step)};
+  card.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const r=card.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;tx=(px-.5)*16;ty=(.5-py)*16;gx=px*100;gy=py*100;kick()});
+  card.addEventListener('pointerleave',()=>{tx=0;ty=0;kick()});
+});
+
+// 3. RSVP 表單回覆處理
+document.querySelectorAll('form.rsvp').forEach(f=>f.addEventListener('submit',e=>{
+  e.preventDefault();
+  const o=f.querySelector('.ok');
+  if(o){o.hidden=false;o.style.display='block'}
+  const btn=f.querySelector('button');
+  if(btn){btn.disabled=true;btn.textContent='已成功送出 · Thank you!'}
+}));
+
+if(location.hash.includes('shot'))document.querySelectorAll('.rv').forEach(e=>e.classList.add('in'));
+addEventListener('scroll',()=>document.documentElement.style.setProperty('--sy',scrollY),{passive:true});
+
+// 4. 2027.01.23 倒數計時器
+const weddingDate = new Date('2027-01-23T00:00:00+08:00').getTime();
+const updateCd = () => {
+  const now = new Date().getTime();
+  const diff = weddingDate - now;
+  if(diff <= 0) {
+    document.querySelectorAll('.cd-val-d').forEach(e=>e.textContent='0');
+    document.querySelectorAll('.cd-val-h').forEach(e=>e.textContent='0');
+    document.querySelectorAll('.cd-val-m').forEach(e=>e.textContent='0');
+    document.querySelectorAll('.cd-val-s').forEach(e=>e.textContent='0');
+    return;
+  }
+  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const s = Math.floor((diff % (1000 * 60)) / 1000);
+  document.querySelectorAll('.cd-val-d').forEach(e=>e.textContent=d);
+  document.querySelectorAll('.cd-val-h').forEach(e=>e.textContent=String(h).padStart(2,'0'));
+  document.querySelectorAll('.cd-val-m').forEach(e=>e.textContent=String(m).padStart(2,'0'));
+  document.querySelectorAll('.cd-val-s').forEach(e=>e.textContent=String(s).padStart(2,'0'));
+};
+setInterval(updateCd, 1000);
+updateCd();
+
+// 5. 相片燈箱功能 (Lightbox)
+const lb = document.getElementById('lightbox');
+const lbImg = document.getElementById('lbImg');
+const lbCap = document.getElementById('lbCap');
+const lbClose = document.getElementById('lbClose');
+const lbPrev = document.getElementById('lbPrev');
+const lbNext = document.getElementById('lbNext');
+
+let galleryItems = [];
+let currentIdx = 0;
+
+const initLightbox = () => {
+  const photoEls = [...document.querySelectorAll('.gal>div, .story-photo, .fr .img')];
+  galleryItems = photoEls.map(el => {
+    const img = el.querySelector('img');
+    const span = el.querySelector('span, b, .zh');
+    return {
+      src: img ? img.src : '',
+      cap: span ? span.textContent.trim() : (el.getAttribute('data-cap') || 'Christy & Tim · Wedding Moments')
+    };
+  }).filter(item => item.src);
+
+  photoEls.forEach(el => {
+    el.addEventListener('click', () => {
+      const img = el.querySelector('img');
+      if(!img) return;
+      const idx = galleryItems.findIndex(item => item.src === img.src);
+      if(idx !== -1) openLightbox(idx);
+    });
+  });
+};
+
+const openLightbox = (idx) => {
+  currentIdx = idx;
+  lbImg.src = galleryItems[currentIdx].src;
+  lbCap.textContent = galleryItems[currentIdx].cap;
+  lb.classList.add('open');
+};
+
+const closeLightbox = () => lb.classList.remove('open');
+const showPrev = (e) => { e.stopPropagation(); currentIdx = (currentIdx - 1 + galleryItems.length) % galleryItems.length; openLightbox(currentIdx); };
+const showNext = (e) => { e.stopPropagation(); currentIdx = (currentIdx + 1) % galleryItems.length; openLightbox(currentIdx); };
+
+if(lbClose) lbClose.addEventListener('click', closeLightbox);
+if(lbPrev) lbPrev.addEventListener('click', showPrev);
+if(lbNext) lbNext.addEventListener('click', showNext);
+if(lb) lb.addEventListener('click', (e) => { if(e.target === lb || e.target === lbImg) closeLightbox(); });
+document.addEventListener('keydown', (e) => {
+  if(!lb.classList.contains('open')) return;
+  if(e.key === 'Escape') closeLightbox();
+  if(e.key === 'ArrowLeft') showPrev(e);
+  if(e.key === 'ArrowRight') showNext(e);
+});
+setTimeout(initLightbox, 200);
+
+// 6. 加入日曆 iCal (.ics) 下載功能
+window.downloadICS = function() {
+  const icsData = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Christy & Tim//Wedding 2027//ZH',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    'UID:wedding-christy-tim-20270123@wedding',
+    'DTSTAMP:20261017T000000Z',
+    'DTSTART;VALUE=DATE:20270123',
+    'DTEND;VALUE=DATE:20270124',
+    'SUMMARY:Christy & Tim 婚禮慶典 · Wedding Day',
+    'DESCRIPTION:0123 ↔ 0321 由 3.21 到 1.23，倒轉都係我哋。誠邀見證 Christy & Tim 婚禮！',
+    'LOCATION:Hong Kong (Venue TBC)',
+    'STATUS:CONFIRMED',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+  const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'christy-tim-wedding-20270123.ics';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
+
+// 7. 輕柔浪漫鋼琴和弦 BGM (Web Audio API 合成，零外部依賴)
+let audioCtx = null;
+let isPlaying = false;
+let bgmTimer = null;
+const bgmBtn = document.getElementById('bgmBtn');
+
+const weddingMelody = [
+  // Canon / Romantic chords: D - A - Bm - F#m - G - D - G - A
+  {f: 293.66, d: 1.6}, {f: 369.99, d: 0.8}, {f: 440.00, d: 0.8},
+  {f: 220.00, d: 1.6}, {f: 329.63, d: 0.8}, {f: 440.00, d: 0.8},
+  {f: 246.94, d: 1.6}, {f: 293.66, d: 0.8}, {f: 369.99, d: 0.8},
+  {f: 185.00, d: 1.6}, {f: 277.18, d: 0.8}, {f: 369.99, d: 0.8},
+  {f: 196.00, d: 1.6}, {f: 293.66, d: 0.8}, {f: 392.00, d: 0.8},
+  {f: 146.83, d: 1.6}, {f: 293.66, d: 0.8}, {f: 369.99, d: 0.8},
+  {f: 196.00, d: 1.6}, {f: 246.94, d: 0.8}, {f: 293.66, d: 0.8},
+  {f: 220.00, d: 2.4}
+];
+
+function playNote(freq, dur, time) {
+  if(!audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(freq, time);
+  
+  // 柔和淡入淡出鋼琴包絡
+  gain.gain.setValueAtTime(0.001, time);
+  gain.gain.exponentialRampToValueAtTime(0.08, time + 0.05);
+  gain.gain.exponentialRampToValueAtTime(0.0001, time + dur);
+  
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start(time);
+  osc.stop(time + dur);
+}
+
+function startMusicLoop() {
+  if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  
+  let now = audioCtx.currentTime + 0.1;
+  weddingMelody.forEach(note => {
+    playNote(note.f, note.d, now);
+    playNote(note.f * 1.5, note.d * 0.8, now + 0.1);
+    now += note.d * 0.7;
+  });
+  
+  const totalDur = (now - audioCtx.currentTime) * 1000;
+  bgmTimer = setTimeout(() => {
+    if(isPlaying) startMusicLoop();
+  }, totalDur);
+}
+
+if(bgmBtn) {
+  bgmBtn.addEventListener('click', () => {
+    if(!isPlaying) {
+      isPlaying = true;
+      bgmBtn.classList.add('playing');
+      bgmBtn.setAttribute('title', '點擊暫停背景音樂');
+      startMusicLoop();
+    } else {
+      isPlaying = false;
+      bgmBtn.classList.remove('playing');
+      bgmBtn.setAttribute('title', '點擊播放浪漫背景音樂');
+      clearTimeout(bgmTimer);
+    }
+  });
+}
+</script><script>const L=document.getElementById('lead'),c=document.getElementById('cnt');let n=3;const t=setInterval(()=>{n--;if(n>0)c.textContent=n;else{clearInterval(t);L.classList.add('done')}},800);if(location.hash.includes('shot'))L.remove();</script><script>if(location.hash.includes('shot'))document.documentElement.classList.add('shot');(()=>{const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;const b=document.querySelector('.mband'),c=document.getElementById('mcoin'),r=document.getElementById('mrefl');if(!b)return;
+let t=0,cur=0;const tick=()=>{const rc=b.getBoundingClientRect(),p=Math.min(1,Math.max(0,-rc.top/(rc.height-innerHeight)));t=p*180;cur+=(t-cur)*(RM?1:.12);c.style.transform=`rotateY(${cur}deg)`;r.textContent=cur>90?'3.21':'1.23';if(Math.abs(t-cur)>.1)requestAnimationFrame(tick);else ticking=false};
+let ticking=false;addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(tick)}},{passive:true});
+if(location.hash.includes('shot')){c.style.transform='rotateY(20deg)'}})();</script><script>(()=>{const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;const sc=document.querySelector('.scrub'),fr=sc.querySelector('.frames'),fc=document.getElementById('fc');
+const up=()=>{if(innerWidth<=760)return;const r=sc.getBoundingClientRect(),p=Math.min(1,Math.max(0,-r.top/(r.height-innerHeight)));const max=fr.scrollWidth-innerWidth*.84;fr.style.transform=`translateX(${-p*Math.max(0,max)}px)`;const n=Math.min(4,1+Math.floor(p*4));fc.textContent=`FRAME 0${n} / 04 · `+(p>.5?'0321 ↔ 0123':'0123 ↔ 0321')};
+let tk=false;addEventListener('scroll',()=>{if(!tk){tk=true;requestAnimationFrame(()=>{up();tk=false})}},{passive:true});up();
+const f=document.querySelector('.tk form');f.addEventListener('submit',()=>f.parentNode.classList.add('torn'));})();</script></body></html>

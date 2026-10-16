@@ -1,0 +1,466 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Christy & Tim · Garden</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;700&family=Noto+Serif+TC:wght@300;500;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"><style>
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.num{font-family:'Plus Jakarta Sans',sans-serif;font-variant-numeric:tabular-nums}
+.zh{word-break:keep-all;line-break:strict}
+section{padding:110px 6vw;position:relative}.wrap{max-width:1080px;margin:0 auto}
+.rv{opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}.rv.in{opacity:1;transform:none}
+.tilt{transform-style:preserve-3d;will-change:transform;position:relative}
+.tilt .glare{position:absolute;inset:0;border-radius:inherit;pointer-events:none;mix-blend-mode:overlay;opacity:0;transition:opacity .4s}
+.tilt:hover .glare{opacity:1}
+.sh{display:flex;align-items:baseline;gap:18px;margin-bottom:48px;flex-wrap:wrap}.sh .n{font-size:14px;letter-spacing:.3em}
+form.rsvp{display:grid;gap:16px;max-width:560px}form.rsvp label{display:grid;gap:6px;font-size:14px}
+form.rsvp input,form.rsvp select,form.rsvp textarea{font:inherit;padding:12px 14px;border-radius:6px;border:1px solid currentColor;background:transparent;color:inherit}
+form.rsvp select option{color:#222}
+details{border-bottom:1px solid currentColor;padding:18px 0}details summary{cursor:pointer;list-style:none;font-weight:500}details p{margin-top:10px;opacity:.8;line-height:1.8}
+
+/* 相片畫廊 Gallery */
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.gal>div{aspect-ratio:4/5;border-radius:8px;position:relative;overflow:hidden;cursor:pointer;background:#222}
+.gal>div img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.25,.8,.25,1),filter .7s}
+.gal>div:hover img{transform:scale(1.06);filter:brightness(1.05)}
+.gal>div span{position:absolute;left:14px;bottom:12px;font-size:12px;letter-spacing:.15em;z-index:2;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);padding:4px 10px;border-radius:20px;pointer-events:none}
+.gal>div:after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 45%);opacity:.85;pointer-events:none}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.map{aspect-ratio:16/9;border-radius:10px;position:relative;overflow:hidden}
+.ph{opacity:.7;font-size:.9em}
+
+/* 倒數計時模組 */
+.cd-section{margin:36px 0 20px;text-align:center}
+.cd-title{font-size:13px;letter-spacing:.3em;text-transform:uppercase;opacity:.8;margin-bottom:16px}
+.countdown-box{display:inline-flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.cd-unit{min-width:76px;padding:14px 10px;border-radius:10px;border:1px solid currentColor;background:rgba(255,255,255,.04);backdrop-filter:blur(6px);text-align:center}
+.cd-val{font-size:clamp(26px,4vw,38px);font-weight:700;line-height:1}
+.cd-lbl{font-size:11px;letter-spacing:.2em;opacity:.75;margin-top:6px;text-transform:uppercase}
+
+/* 加入日曆按鈕 */
+.cal-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.cal-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:30px;font-size:13px;letter-spacing:.15em;text-decoration:none;border:1px solid currentColor;color:inherit;transition:all .3s;cursor:pointer;background:transparent}
+.cal-btn:hover{background:rgba(255,255,255,.15);transform:translateY(-2px)}
+.cal-btn svg{width:16px;height:16px;fill:currentColor}
+
+/* 懸浮浪漫音樂播放器 */
+.bgm-btn{position:fixed;top:22px;right:22px;z-index:90;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(18,18,18,.65);backdrop-filter:blur(10px);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 25px rgba(0,0,0,.35);transition:all .3s}
+.bgm-btn:hover{transform:scale(1.08);background:rgba(18,18,18,.85)}
+.bgm-btn.playing svg{animation:spinMusic 6s linear infinite}
+.bgm-tooltip{position:absolute;right:52px;white-space:nowrap;font-size:11px;letter-spacing:.15em;background:rgba(0,0,0,.75);padding:4px 10px;border-radius:12px;opacity:0;pointer-events:none;transition:opacity .3s;color:#fff}
+.bgm-btn:hover .bgm-tooltip{opacity:1}
+@keyframes spinMusic{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* 全螢幕相片燈箱 (Lightbox) */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s;padding:24px}
+.lightbox.open{opacity:1;pointer-events:auto}
+.lightbox img{max-width:90vw;max-height:82vh;object-fit:contain;border-radius:6px;box-shadow:0 30px 80px rgba(0,0,0,.8);transition:transform .3s}
+.lightbox .lb-cap{color:#f0f0f0;font-size:14px;letter-spacing:.2em;margin-top:16px;text-align:center;font-family:'Plus Jakarta Sans','Noto Serif TC',sans-serif}
+.lightbox .lb-close{position:absolute;top:24px;right:28px;background:none;border:none;color:#fff;font-size:32px;cursor:pointer;line-height:1;opacity:.8;transition:opacity .2s}
+.lightbox .lb-close:hover{opacity:1}
+.lightbox .lb-prev,.lightbox .lb-next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.1);border:none;color:#fff;width:50px;height:50px;border-radius:50%;display:grid;place-items:center;cursor:pointer;font-size:20px;transition:background .2s}
+.lightbox .lb-prev{left:24px}.lightbox .lb-next{right:24px}
+.lightbox .lb-prev:hover,.lightbox .lb-next:hover{background:rgba(255,255,255,.25)}
+
+/* 故事時間軸相片 */
+.story-photo{width:100%;height:180px;border-radius:6px;overflow:hidden;margin-top:14px;position:relative;cursor:pointer}
+.story-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.story-photo:hover img{transform:scale(1.05)}
+
+@media(max-width:760px){
+  section{padding:80px 6vw}.grid2{grid-template-columns:1fr}
+  .gal{grid-template-columns:1fr 1fr}
+  .lightbox .lb-prev{left:10px}.lightbox .lb-next{right:10px}
+}
+@media(max-width:480px){
+  .gal{grid-template-columns:1fr}
+  .countdown-box{gap:8px}
+  .cd-unit{min-width:64px;padding:10px 6px}
+  .cd-val{font-size:24px}
+}
+body.shot{min-height:0}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+body{background:#f7f2e7;color:#3d4a3a;font-family:'Cormorant Garamond','Noto Serif TC',serif;font-size:19px}
+h1,h2{font-family:'Playfair Display','Noto Serif TC',serif;font-weight:400}
+#env{position:fixed;inset:0;z-index:50;background:#e9e2d0;display:grid;place-items:center;transition:opacity 1.2s,visibility 1.2s}
+#env.done{opacity:0;visibility:hidden}
+.envl{width:min(520px,86vw);aspect-ratio:1.5;position:relative;background:#efe6d2;box-shadow:0 30px 60px rgba(60,70,50,.25);cursor:pointer}
+.envl .fl{position:absolute;inset:0 0 40% 0;background:#e3d8bf;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform 1s cubic-bezier(.6,0,.2,1)}
+.envl.open .fl{transform:rotateX(180deg)}
+.envl .wax{position:absolute;left:50%;top:60%;transform:translate(-50%,-50%);transition:opacity .4s;filter:drop-shadow(0 4px 6px rgba(0,0,0,.3))}
+.envl.open .wax{opacity:0}
+.envl p{position:absolute;bottom:14px;width:100%;text-align:center;font-size:14px;letter-spacing:.3em;color:#7d8a6f}
+.hero{min-height:min(100vh,960px);display:grid;place-items:center;text-align:center;overflow:hidden}
+.flo{position:absolute;pointer-events:none;transform:translateY(calc(var(--sy,0)*-.15px))}
+.hero h1{font-size:clamp(56px,10vw,132px);line-height:.95;font-style:italic;color:#4f6249}
+.hero h1 em{font-size:.45em;display:block;margin:10px 0;color:#b59a6b}
+.mirror{display:flex;gap:28px;justify-content:center;align-items:center;margin-top:34px}
+.mirror .num{font-size:40px;font-weight:300;color:#7d8a6f}.mirror .bar{width:60px;height:1px;background:#b59a6b}
+.sh h2{font-size:clamp(36px,5vw,56px);font-style:italic}.sh .n{color:#b59a6b}
+.tl{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.tl .it{background:#fffdf7;padding:24px;border-radius:6px;box-shadow:0 12px 30px rgba(60,70,50,.08);transition:transform .4s}
+.tl .it:hover{transform:translateY(-6px)}
+.tl .d{font-size:30px;color:#b59a6b;font-weight:300}.tl h3{font-family:'Playfair Display','Noto Serif TC';font-weight:400;margin:10px 0;font-size:20px}.tl p{font-size:16px;line-height:1.7;opacity:.8}
+.cardp{background:#fffdf7;padding:44px;border:1px solid #d9cfb5;outline:1px solid #d9cfb5;outline-offset:-10px}
+.cardp h3{font-family:'Playfair Display','Noto Serif TC';font-weight:400;font-size:28px;font-style:italic;margin-bottom:14px}.cardp p{line-height:1.9}
+.map{background:#e6e8d8}
+.sw{display:flex;gap:14px;margin-top:20px}.sw i{width:56px;height:80px;border-radius:30px 30px 4px 4px}
+.gal>div{border-radius:200px 200px 10px 10px;box-shadow:0 16px 36px rgba(60,70,50,.15);border:2px solid #fffdf7}
+.gal span{color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.cd-unit{border-color:#b59a6b88;background:rgba(255,253,247,.8);color:#3d4a3a}
+.cd-val{color:#4f6249}
+.cal-btn{border-color:#4f6249;color:#4f6249}
+.cal-btn:hover{background:#4f624915}
+button.b{font:inherit;font-size:16px;padding:14px;background:#4f6249;color:#f7f2e7;border:0;border-radius:40px;letter-spacing:.2em;cursor:pointer}
+button.b:hover{background:#3d4a3a}
+form.rsvp input,form.rsvp select,form.rsvp textarea{border-color:#c7bd9f;background:#fffdf7}
+footer{text-align:center;padding:60px 6vw 90px}
+@media(max-width:760px){.tl{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.tl{grid-template-columns:1fr}.mirror{gap:12px}.mirror .bar{width:24px}.mirror .num{font-size:30px}.hero p{letter-spacing:.12em!important}}
+.shot .mband,.shot .scrub{height:auto!important}.shot .mband .stk{position:relative;height:760px}.shot .scrub .stk2{position:relative;height:auto;padding:40px 0}
+@media(max-width:760px){.vine{opacity:.35;left:-30px}}.mband{height:180vh;position:relative}.mband .stk{position:sticky;top:0;height:100vh;display:grid;place-items:center;perspective:1400px;overflow:hidden}
+.mcoin{position:relative;transform-style:preserve-3d;font-family:'Plus Jakarta Sans';font-variant-numeric:tabular-nums;font-weight:200;font-size:clamp(90px,22vw,300px);line-height:1}
+.mcoin span{display:block;backface-visibility:hidden}.mcoin .b{position:absolute;inset:0;transform:rotateY(180deg)}
+.mcap{position:absolute;bottom:12vh;width:100%;text-align:center;letter-spacing:.3em;font-size:14px;word-break:keep-all}
+.mrefl{transform:scaleY(-1);opacity:.12;mask-image:linear-gradient(transparent 40%,#000);-webkit-mask-image:linear-gradient(transparent 40%,#000);font-family:'Plus Jakarta Sans';font-weight:200;font-size:clamp(90px,22vw,300px);line-height:1;font-variant-numeric:tabular-nums;margin-top:-.15em}
+.pt{position:absolute;top:-30px;width:14px;height:18px;border-radius:14px 0 14px 0;opacity:.7;pointer-events:none;animation:fall linear infinite;will-change:transform}
+@keyframes fall{0%{transform:translate(0,-5vh) rotate(0)}100%{transform:translate(var(--dx),105vh) rotate(540deg)}}
+@media(max-width:760px){.pt:nth-child(n+8){display:none}}
+.vine{position:absolute;left:2vw;top:0;height:100%;width:120px;pointer-events:none;overflow:visible}
+.vine path{fill:none;stroke:#8fa587;stroke-width:2}.vine .lf{fill:#a9b99a;opacity:0;transition:opacity .6s}
+.tl .it{background-image:radial-gradient(#0000 60%,#b59a6b10),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='p'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .6 0 0 0 0 .55 0 0 0 0 .4 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23p)'/%3E%3C/svg%3E")!important;position:relative;padding-top:86px!important}
+.tl .it:after{content:'';position:absolute;top:-10px;left:50%;width:70px;height:22px;transform:translateX(-50%) rotate(-3deg);background:#e8dcc0cc;box-shadow:0 1px 2px #0002}
+.pf{position:absolute;top:14px;right:16px;width:64px;height:64px;opacity:.85;filter:saturate(.7) sepia(.15)}
+.envl .wax{transition:none}.halfL,.halfR{position:absolute;left:0;top:0;transition:transform 1s cubic-bezier(.5,0,.3,1),opacity 1s}
+.halfL{clip-path:polygon(0 0,52% 0,46% 30%,55% 55%,45% 75%,50% 100%,0 100%)}.halfR{clip-path:polygon(52% 0,100% 0,100% 100%,50% 100%,45% 75%,55% 55%,46% 30%)}
+.envl .wax{width:120px;height:120px}.envl.crack .halfL{transform:translate(-30px,40px) rotate(-25deg);opacity:0}.envl.crack .halfR{transform:translate(30px,50px) rotate(20deg);opacity:0}
+.envl.open .wax{opacity:1!important}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}</style></head><body><div id="env"><div><div class="envl tilt" id="envl"><div class="fl"></div><div class="wax"><div class="halfL"><svg viewBox="0 0 200 200" width="120" height="120" aria-hidden="true"><defs><path id="cw" d="M28,100 a72,72 0 0,1 144,0"/><path id="bw" d="M18,100 a82,82 0 0,0 164,0"/></defs>
+<circle cx="100" cy="100" r="96" fill="#8a2f2f"/><circle cx="100" cy="100" r="86" fill="none" stroke="#f1d9b5" stroke-width="1.5" stroke-dasharray="2 4"/>
+<text font-family="'Playfair Display',serif" font-size="15" letter-spacing="5" fill="#f1d9b5"><textPath href="#cw" startOffset="50%" text-anchor="middle">CHRISTY & TIM</textPath></text>
+<text font-family="'Playfair Display',serif" font-size="15" letter-spacing="5" fill="#f1d9b5"><textPath href="#bw" startOffset="50%" text-anchor="middle" dominant-baseline="hanging">0123 · 0321</textPath></text>
+<text x="100" y="114" text-anchor="middle" font-family="'Playfair Display',serif" font-size="42" font-weight="700" fill="#f1d9b5">C&amp;T</text></svg></div><div class="halfR"><svg viewBox="0 0 200 200" width="120" height="120" aria-hidden="true"><defs><path id="cw2" d="M28,100 a72,72 0 0,1 144,0"/><path id="bw2" d="M18,100 a82,82 0 0,0 164,0"/></defs>
+<circle cx="100" cy="100" r="96" fill="#8a2f2f"/><circle cx="100" cy="100" r="86" fill="none" stroke="#f1d9b5" stroke-width="1.5" stroke-dasharray="2 4"/>
+<text font-family="'Playfair Display',serif" font-size="15" letter-spacing="5" fill="#f1d9b5"><textPath href="#cw2" startOffset="50%" text-anchor="middle">CHRISTY & TIM</textPath></text>
+<text font-family="'Playfair Display',serif" font-size="15" letter-spacing="5" fill="#f1d9b5"><textPath href="#bw2" startOffset="50%" text-anchor="middle" dominant-baseline="hanging">0123 · 0321</textPath></text>
+<text x="100" y="114" text-anchor="middle" font-family="'Playfair Display',serif" font-size="42" font-weight="700" fill="#f1d9b5">C&amp;T</text></svg></div></div><p>CLICK THE SEAL · 撳火漆印開信</p></div></div></div>
+<section class="hero"><i class="pt" style="left:0%;animation-delay:0.0s;animation-duration:10s;--dx:-80px;background:#e8cfc4"></i><i class="pt" style="left:37%;animation-delay:10.3s;animation-duration:13s;--dx:-40px;background:#c9a9a6"></i><i class="pt" style="left:74%;animation-delay:8.6s;animation-duration:16s;--dx:0px;background:#f3e2d7"></i><i class="pt" style="left:11%;animation-delay:6.9s;animation-duration:12s;--dx:40px;background:#dde3cf"></i><i class="pt" style="left:48%;animation-delay:5.2s;animation-duration:15s;--dx:80px;background:#e8cfc4"></i><i class="pt" style="left:85%;animation-delay:3.5s;animation-duration:11s;--dx:-80px;background:#c9a9a6"></i><i class="pt" style="left:22%;animation-delay:1.8s;animation-duration:14s;--dx:-40px;background:#f3e2d7"></i><i class="pt" style="left:59%;animation-delay:0.1s;animation-duration:10s;--dx:0px;background:#dde3cf"></i><i class="pt" style="left:96%;animation-delay:10.4s;animation-duration:13s;--dx:40px;background:#e8cfc4"></i><i class="pt" style="left:33%;animation-delay:8.7s;animation-duration:16s;--dx:80px;background:#c9a9a6"></i><i class="pt" style="left:70%;animation-delay:7.0s;animation-duration:12s;--dx:-80px;background:#f3e2d7"></i><i class="pt" style="left:7%;animation-delay:5.3s;animation-duration:15s;--dx:-40px;background:#dde3cf"></i><i class="pt" style="left:44%;animation-delay:3.6s;animation-duration:11s;--dx:0px;background:#e8cfc4"></i><i class="pt" style="left:81%;animation-delay:1.9s;animation-duration:14s;--dx:40px;background:#c9a9a6"></i><svg class="flo" style="left:-40px;top:8%;width:300px" viewBox="-80 -80 160 160"><defs><filter id="wc"><feTurbulence baseFrequency=".04" numOctaves="3" seed="300"/><feDisplacementMap in="SourceGraphic" scale="9"/><feGaussianBlur stdDeviation=".8"/></filter></defs><g filter="url(#wc)" transform="rotate(10)"><ellipse cx="-40" cy="20" rx="30" ry="10" fill="#8fa587" opacity=".5" transform="rotate(30)"/><ellipse cx="40" cy="26" rx="34" ry="9" fill="#a9b99a" opacity=".5" transform="rotate(-25)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#e8cfc4" opacity=".55" transform="rotate(0)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#c9a9a6" opacity=".55" transform="rotate(60)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#e8cfc4" opacity=".55" transform="rotate(120)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#c9a9a6" opacity=".55" transform="rotate(180)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#e8cfc4" opacity=".55" transform="rotate(240)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#c9a9a6" opacity=".55" transform="rotate(300)"/><circle r="8" fill="#d8b874" opacity=".7"/></g></svg><svg class="flo" style="left:78%;top:58%;width:340px" viewBox="-80 -80 160 160"><defs><filter id="wc"><feTurbulence baseFrequency=".04" numOctaves="3" seed="340"/><feDisplacementMap in="SourceGraphic" scale="9"/><feGaussianBlur stdDeviation=".8"/></filter></defs><g filter="url(#wc)" transform="rotate(-30)"><ellipse cx="-40" cy="20" rx="30" ry="10" fill="#8fa587" opacity=".5" transform="rotate(30)"/><ellipse cx="40" cy="26" rx="34" ry="9" fill="#a9b99a" opacity=".5" transform="rotate(-25)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#dde3cf" opacity=".55" transform="rotate(0)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#b8c4a6" opacity=".55" transform="rotate(60)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#dde3cf" opacity=".55" transform="rotate(120)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#b8c4a6" opacity=".55" transform="rotate(180)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#dde3cf" opacity=".55" transform="rotate(240)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#b8c4a6" opacity=".55" transform="rotate(300)"/><circle r="8" fill="#d8b874" opacity=".7"/></g></svg><svg class="flo" style="left:82%;top:2%;width:180px" viewBox="-80 -80 160 160"><defs><filter id="wc"><feTurbulence baseFrequency=".04" numOctaves="3" seed="180"/><feDisplacementMap in="SourceGraphic" scale="9"/><feGaussianBlur stdDeviation=".8"/></filter></defs><g filter="url(#wc)" transform="rotate(50)"><ellipse cx="-40" cy="20" rx="30" ry="10" fill="#8fa587" opacity=".5" transform="rotate(30)"/><ellipse cx="40" cy="26" rx="34" ry="9" fill="#a9b99a" opacity=".5" transform="rotate(-25)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#e8cfc4" opacity=".55" transform="rotate(0)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#c9a9a6" opacity=".55" transform="rotate(60)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#e8cfc4" opacity=".55" transform="rotate(120)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#c9a9a6" opacity=".55" transform="rotate(180)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#e8cfc4" opacity=".55" transform="rotate(240)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#c9a9a6" opacity=".55" transform="rotate(300)"/><circle r="8" fill="#d8b874" opacity=".7"/></g></svg><svg class="flo" style="left:4%;top:70%;width:200px" viewBox="-80 -80 160 160"><defs><filter id="wc"><feTurbulence baseFrequency=".04" numOctaves="3" seed="200"/><feDisplacementMap in="SourceGraphic" scale="9"/><feGaussianBlur stdDeviation=".8"/></filter></defs><g filter="url(#wc)" transform="rotate(80)"><ellipse cx="-40" cy="20" rx="30" ry="10" fill="#8fa587" opacity=".5" transform="rotate(30)"/><ellipse cx="40" cy="26" rx="34" ry="9" fill="#a9b99a" opacity=".5" transform="rotate(-25)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#efe0bd" opacity=".55" transform="rotate(0)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#d8b874" opacity=".55" transform="rotate(60)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#efe0bd" opacity=".55" transform="rotate(120)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#d8b874" opacity=".55" transform="rotate(180)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#efe0bd" opacity=".55" transform="rotate(240)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#d8b874" opacity=".55" transform="rotate(300)"/><circle r="8" fill="#d8b874" opacity=".7"/></g></svg>
+<div class="rv"><p style="letter-spacing:.5em;font-size:14px" class="zh">TOGETHER WITH THEIR FAMILIES · 誠邀</p>
+<h1>Christy<em>&amp;</em>Tim</h1>
+<div class="mirror"><span class="num">1.23</span><span class="bar"></span><span style="font-style:italic;color:#b59a6b">mirrored</span><span class="bar"></span><span class="num">3.21</span></div>
+<p style="margin-top:22px;letter-spacing:.3em"><span class="num">SAT 23 JAN 2027</span> · <span class="zh">地點待定 Venue TBC</span></p></div></section>
+
+<!-- 花園風倒數計時 -->
+<section style="padding:40px 6vw 0"><div class="wrap"><div class="cd-section rv">
+  <div class="cd-title num">COUNTDOWN TO OUR CELEBRATION · 婚禮倒計時</div>
+  <div class="countdown-box num">
+    <div class="cd-unit"><div class="cd-val cd-val-d">000</div><div class="cd-lbl">天 DAYS</div></div>
+    <div class="cd-unit"><div class="cd-val cd-val-h">00</div><div class="cd-lbl">時 HRS</div></div>
+    <div class="cd-unit"><div class="cd-val cd-val-m">00</div><div class="cd-lbl">分 MIN</div></div>
+    <div class="cd-unit"><div class="cd-val cd-val-s">00</div><div class="cd-lbl">秒 SEC</div></div>
+  </div>
+</div></div></section>
+
+<section style="overflow:hidden"><svg class="vine" viewBox="0 0 120 1000" preserveAspectRatio="none"><path id="vp" d="M60 0 C10 120 110 220 60 340 S10 560 60 680 S110 880 60 1000"/><ellipse class="lf" data-at="0.15" cx="40" cy="140" rx="14" ry="6" transform="rotate(-30 40 140)"/><ellipse class="lf" data-at="0.3" cx="80" cy="300" rx="14" ry="6" transform="rotate(25 80 300)"/><ellipse class="lf" data-at="0.45" cx="36" cy="480" rx="14" ry="6" transform="rotate(-20 36 480)"/><ellipse class="lf" data-at="0.6" cx="84" cy="640" rx="14" ry="6" transform="rotate(30 84 640)"/><ellipse class="lf" data-at="0.75" cx="38" cy="800" rx="14" ry="6" transform="rotate(-25 38 800)"/><ellipse class="lf" data-at="0.9" cx="80" cy="940" rx="14" ry="6" transform="rotate(20 80 940)"/></svg><div class="wrap"><div class="sh rv"><span class="n num">01</span><h2>Our Story</h2><span class="zh">我們的故事</span></div><p class="rv zh" style="font-size:24px;font-style:italic;margin-bottom:40px">From 3.21 to 1.23 — 由 <span class="num">3.21</span> 到 <span class="num">1.23</span>，一組鏡像數字。</p><div class="tl"><div class="it tilt rv"><svg class="pf" viewBox="-40 -40 80 80"><path d="M0 0 Q4 20 -4 38" stroke="#7d8a6f" fill="none"/><ellipse cx="2" cy="24" rx="8" ry="3" fill="#8fa587" transform="rotate(30 2 24)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#c9a9a6" transform="rotate(0)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#e8cfc4" transform="rotate(72)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#c9a9a6" transform="rotate(144)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#e8cfc4" transform="rotate(216)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#c9a9a6" transform="rotate(288)"/><circle r="4" fill="#d8b874"/></svg>
+  <div class="d num">03.21</div>
+  <h3 class="zh">Tim 的生日 · Tim's birthday</h3>
+  <p class="zh">故事由呢個春天日子開始。一組奇妙的數字 03.21，在時光裡悄悄埋下了相遇的伏線。</p>
+  <div class="story-photo" data-cap="Tim 的生日 · Tim's birthday"><img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80" alt="Tim 的生日 · Tim's birthday" loading="lazy"></div>
+</div><div class="it tilt rv"><svg class="pf" viewBox="-40 -40 80 80"><path d="M0 0 Q7 20 -1 38" stroke="#7d8a6f" fill="none"/><ellipse cx="5" cy="24" rx="8" ry="3" fill="#8fa587" transform="rotate(30 5 24)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#a9b99a" transform="rotate(0)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#dde3cf" transform="rotate(72)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#a9b99a" transform="rotate(144)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#dde3cf" transform="rotate(216)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#a9b99a" transform="rotate(288)"/><circle r="4" fill="#d8b874"/></svg>
+  <div class="d num">初遇</div>
+  <h3 class="zh">相遇與心動 · First met</h3>
+  <p class="zh">那天在微風微醺的咖啡香裡初次相遇，對視的一刻，好像彼此已經認識了很久。</p>
+  <div class="story-photo" data-cap="相遇與心動 · First met"><img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=800&q=80" alt="相遇與心動 · First met" loading="lazy"></div>
+</div><div class="it tilt rv"><svg class="pf" viewBox="-40 -40 80 80"><path d="M0 0 Q10 20 2 38" stroke="#7d8a6f" fill="none"/><ellipse cx="8" cy="24" rx="8" ry="3" fill="#8fa587" transform="rotate(30 8 24)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#d8b874" transform="rotate(0)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#efe0bd" transform="rotate(72)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#d8b874" transform="rotate(144)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#efe0bd" transform="rotate(216)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#d8b874" transform="rotate(288)"/><circle r="4" fill="#d8b874"/></svg>
+  <div class="d num">求婚</div>
+  <h3 class="zh">承諾終生 · The proposal</h3>
+  <p class="zh">在滿天星光下許下相伴一生的誓約。「執子之手，與子偕老」，未來的每一天都有你。</p>
+  <div class="story-photo" data-cap="承諾終生 · The proposal"><img src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=800&q=80" alt="承諾終生 · The proposal" loading="lazy"></div>
+</div><div class="it tilt rv"><svg class="pf" viewBox="-40 -40 80 80"><path d="M0 0 Q13 20 5 38" stroke="#7d8a6f" fill="none"/><ellipse cx="11" cy="24" rx="8" ry="3" fill="#8fa587" transform="rotate(30 11 24)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#c9a9a6" transform="rotate(0)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#f3e2d7" transform="rotate(72)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#c9a9a6" transform="rotate(144)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#f3e2d7" transform="rotate(216)"/><ellipse cx="0" cy="-16" rx="9" ry="16" fill="#c9a9a6" transform="rotate(288)"/><circle r="4" fill="#d8b874"/></svg>
+  <div class="d num">2027.01.23</div>
+  <h3 class="zh">婚禮大喜 · The wedding</h3>
+  <p class="zh">由 3.21 到 1.23 — 數字倒轉，剛好係我哋。翻轉歲月，愛意始終如一。</p>
+  <div class="story-photo" data-cap="婚禮大喜 · The wedding"><img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80" alt="婚禮大喜 · The wedding" loading="lazy"></div>
+</div></div></div></section><div class="mband"><div class="stk"><div><div class="mcoin" id="mcoin"><span class="f">1.23</span><span class="b">3.21</span></div><div class="mrefl" id="mrefl">1.23</div></div><p class="mcap zh">From 3.21 to 1.23 · mirrored, like pressed petals</p></div></div>
+
+<section style="background:#eef0e4"><div class="wrap"><div class="sh rv"><span class="n num">02</span><h2>The Day</h2><span class="zh">婚禮詳情</span></div><div class="grid2">
+<div class="cardp tilt rv"><h3>Ceremony · 草地證婚</h3><p class="zh"><span class="num">2027.01.23</span> · 下午 <span class="num">15:30</span><br>戶外花園草坪 Outdoor Garden Lawn<br>香港淺水灣 Repulse Bay (Venue TBC)<br><span style="opacity:.7;font-size:14px">於花草樹木與親友見證下立下誓約</span></p></div>
+<div class="cardp tilt rv"><h3>Reception · 晚宴酒會</h3><p class="zh">雞尾酒會 Cocktails <span class="num">17:30</span><br>晚宴入席 Dinner <span class="num">19:00</span><br>Fine-dining &amp; Garden Toast<br>敬備美酒佳餚，共度星光之夜</p></div></div>
+<div class="cal-actions rv">
+  <a class="cal-btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Christy+%26+Tim+Wedding+%E5%A9%9A%E7%A6%AE%E5%BA%86%E5%85%B8&dates=20270123T030000Z/20270123T150000Z&details=0123+%E2%86%94+0321+%E7%94%B1+3.21+%E5%88%B0+1.23%EF%BC%8C%E5%80%92%E8%BD%89%E9%83%BD%E4%BF%82%E6%88%91%E5%93%87%E3%80%82Christy+%26+Tim+%E7%B5%90%E5%A9%9A%E5%A4%A7%E5%96%9C%E4%B9%8B%E6%97%A5%EF%BC%81&location=Hong+Kong" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 002 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4H7v-2h2v2zm4 4H7v-2h2v2zm4 0h-2v-2h2v2z"/></svg>
+    加到 Google 日曆
+  </a>
+  <button class="cal-btn" onclick="downloadICS()" type="button">
+    <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+    下載 Apple / iCal (.ics)
+  </button>
+</div>
+</div></section>
+
+<section><div class="wrap"><div class="sh rv"><span class="n num">03</span><h2>Venue</h2><span class="zh">場地</span></div><div class="map rv"><svg class="flo" style="left:8%;top:10%;width:160px" viewBox="-80 -80 160 160"><defs><filter id="wc"><feTurbulence baseFrequency=".04" numOctaves="3" seed="160"/><feDisplacementMap in="SourceGraphic" scale="9"/><feGaussianBlur stdDeviation=".8"/></filter></defs><g filter="url(#wc)" transform="rotate(0)"><ellipse cx="-40" cy="20" rx="30" ry="10" fill="#8fa587" opacity=".5" transform="rotate(30)"/><ellipse cx="40" cy="26" rx="34" ry="9" fill="#a9b99a" opacity=".5" transform="rotate(-25)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#dde3cf" opacity=".55" transform="rotate(0)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#b8c4a6" opacity=".55" transform="rotate(60)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#dde3cf" opacity=".55" transform="rotate(120)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#b8c4a6" opacity=".55" transform="rotate(180)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#dde3cf" opacity=".55" transform="rotate(240)"/><ellipse cx="0" cy="-22" rx="14" ry="24" fill="#b8c4a6" opacity=".55" transform="rotate(300)"/><circle r="8" fill="#d8b874" opacity=".7"/></g></svg><svg style="position:absolute;inset:0" width="100%" height="100%"><path d="M0 200 C200 120 400 300 700 180 S1000 260 1200 150" stroke="#fffdf7" stroke-width="18" fill="none"/><circle cx="55%" cy="45%" r="12" fill="#8a2f2f"/></svg><p class="zh" style="display:flex;justify-content:center;align-items:center;gap:12px;width:100%"><a href="https://maps.google.com/?q=The+Repulse+Bay+Hong+Kong" target="_blank" rel="noopener" style="color:#4f6249;font-weight:600;text-decoration:underline">在 Google 地圖打開 (Open in Google Maps) →</a></p></div></div></section>
+
+<section><div class="wrap grid2"><div class="rv"><div class="sh"><span class="n num">04</span><h2>Attire</h2></div><p class="zh">Dress Code: Garden Elegant / Pastel Tones<br>戶外草坪婚禮，建議女士穿著粗跟或平底鞋履。<br>建議色調參考：鼠尾草綠、柔粉、象牙白、香檳杏色。</p><div class="sw"><i style="background:#8fa587" title="鼠尾草綠"></i><i style="background:#e8cfc4" title="柔粉"></i><i style="background:#efe6d2" title="象牙白"></i><i style="background:#b59a6b" title="香檳杏"></i></div></div>
+<div class="rv"><div class="sh"><span class="n num">05</span><h2>RSVP</h2></div><form class="rsvp rv"><label>姓名 Name<input required placeholder="你的名字 Your name"></label>
+<label>出席 Attendance<select><option>欣然出席 Joyfully attend</option><option>未能出席 Regretfully decline</option></select></label>
+<label>人數 Guests<input class="num" type="number" min="1" max="6" value="1"></label>
+<label>飲食需要 Dietary notes<textarea rows="3" placeholder="素食 / 過敏 / 其他備註 Vegetarian / allergies"></textarea></label>
+<button class="b">送出回覆 Send RSVP</button><p class="ok zh" hidden style="color:#d4a849;font-weight:700;margin-top:10px">多謝你的回覆！我們期待在 2027.01.23 與你相聚！❤️<br><span style="font-size:12px;opacity:.8">（示範表單，已收錄回覆）</span></p></form></div></div></section>
+
+<section><div class="wrap"><div class="sh rv"><span class="n num">06</span><h2>Gallery</h2><span class="zh">花園相片集 · 點擊放大查看</span></div><div class="gal"><div class="rv" data-cap="法式花園 · 捧花誓言">
+  <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1000&q=80" alt="法式花園 · 捧花誓言" loading="lazy">
+  <span>法式花園 · 捧花誓言</span>
+</div><div class="rv" data-cap="微風晨光 · 純白頭紗">
+  <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1000&q=80" alt="微風晨光 · 純白頭紗" loading="lazy">
+  <span>微風晨光 · 純白頭紗</span>
+</div><div class="rv" data-cap="草坪慢步 · 隨風歡笑">
+  <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1000&q=80" alt="草坪慢步 · 隨風歡笑" loading="lazy">
+  <span>草坪慢步 · 隨風歡笑</span>
+</div><div class="rv" data-cap="綠蔭樹影 · 甜蜜相擁">
+  <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=1000&q=80" alt="綠蔭樹影 · 甜蜜相擁" loading="lazy">
+  <span>綠蔭樹影 · 甜蜜相擁</span>
+</div><div class="rv" data-cap="花藝誓約 · 承諾永恆">
+  <img src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=1000&q=80" alt="花藝誓約 · 承諾永恆" loading="lazy">
+  <span>花藝誓約 · 承諾永恆</span>
+</div><div class="rv" data-cap="向陽盛開 · 幸福笑靨">
+  <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1000&q=80" alt="向陽盛開 · 幸福笑靨" loading="lazy">
+  <span>向陽盛開 · 幸福笑靨</span>
+</div></div></div></section>
+
+<section><div class="wrap"><div class="sh rv"><span class="n num">07</span><h2>FAQ</h2><span class="zh">常見問題</span></div><details class="rv"><summary class="zh">可以帶小朋友嗎？ Can we bring kids?</summary><p class="zh">歡迎全家蒞臨，但請提前於 RSVP 告知人數以便我們安排座位 · Please let us know the guest count in RSVP so we can arrange seats!</p></details><details class="rv"><summary class="zh">有冇泊車位？ Is parking available?</summary><p class="zh">場地提供代客泊車及鄰近停車場優惠，詳細停車指引稍後透過電郵/WhatsApp 發送 · Parking info will be sent closer to the date.</p></details><details class="rv"><summary class="zh">禮物 / 人情安排？ Gifts?</summary><p class="zh">大家的祝福與蒞臨是最好的禮物。若想送上心意，現場設有人情箱與電子禮金（PayMe / FPS）· Your presence is our best present!</p></details><details class="rv"><summary class="zh">RSVP 截止日期？ RSVP deadline?</summary><p class="zh">請於 2026 年 11 月 30 日前填妥回覆，讓我們為大家準備最佳筵席 · Please RSVP by 30 Nov 2026.</p></details></div></section>
+
+<footer><div style="display:inline-block"><svg viewBox="0 0 200 200" width="110" height="110" aria-hidden="true"><defs><path id="cf2" d="M28,100 a72,72 0 0,1 144,0"/><path id="bf2" d="M18,100 a82,82 0 0,0 164,0"/></defs>
+<circle cx="100" cy="100" r="96" fill="none"/><circle cx="100" cy="100" r="86" fill="none" stroke="#b59a6b" stroke-width="1.5" stroke-dasharray="2 4"/>
+<text font-family="'Playfair Display',serif" font-size="15" letter-spacing="5" fill="#b59a6b"><textPath href="#cf2" startOffset="50%" text-anchor="middle">CHRISTY & TIM</textPath></text>
+<text font-family="'Playfair Display',serif" font-size="15" letter-spacing="5" fill="#b59a6b"><textPath href="#bf2" startOffset="50%" text-anchor="middle" dominant-baseline="hanging">0123 · 0321</textPath></text>
+<text x="100" y="114" text-anchor="middle" font-family="'Playfair Display',serif" font-size="42" font-weight="700" fill="#b59a6b">C&amp;T</text></svg></div></footer>
+<!-- 相片燈箱組件 -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose" aria-label="關閉">&times;</button>
+  <button class="lb-prev" id="lbPrev" aria-label="上一張">&#10094;</button>
+  <img id="lbImg" src="" alt="婚禮相片">
+  <div class="lb-cap" id="lbCap"></div>
+  <button class="lb-next" id="lbNext" aria-label="下一張">&#10095;</button>
+</div>
+
+<!-- 浪漫音樂播放器 -->
+<div class="bgm-btn" id="bgmBtn" title="浪漫背景音樂 BGM">
+  <span class="bgm-tooltip">浪漫音樂 BGM</span>
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M9 18V5l12-2v13"></path>
+    <circle cx="6" cy="18" r="3"></circle>
+    <circle cx="18" cy="16" r="3"></circle>
+  </svg>
+</div>
+
+<script>
+// 1. 視口滾動動畫觀察器
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+// 2. 3D Tilt 卡片效果
+document.querySelectorAll('.tilt').forEach(card=>{
+  if(!card.querySelector('.glare')){const g=document.createElement('div');g.className='glare';card.appendChild(g)}
+  const g=card.querySelector('.glare');let tx=0,ty=0,x=0,y=0,vx=0,vy=0,raf=null,gx=50,gy=50;
+  const step=()=>{const k=.08,d=.78;vx=(vx+(tx-x)*k)*d;vy=(vy+(ty-y)*k)*d;x+=vx;y+=vy;
+    card.style.transform=`perspective(1000px) rotateX(${y}deg) rotateY(${x}deg)`;
+    g.style.background=`radial-gradient(circle at ${gx}% ${gy}%,rgba(255,255,255,.75),rgba(255,255,255,0) 55%)`;
+    if(Math.abs(vx)+Math.abs(vy)+Math.abs(tx-x)+Math.abs(ty-y)>.01)raf=requestAnimationFrame(step);else raf=null};
+  const kick=()=>{if(!raf)raf=requestAnimationFrame(step)};
+  card.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const r=card.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;tx=(px-.5)*16;ty=(.5-py)*16;gx=px*100;gy=py*100;kick()});
+  card.addEventListener('pointerleave',()=>{tx=0;ty=0;kick()});
+});
+
+// 3. RSVP 表單回覆處理
+document.querySelectorAll('form.rsvp').forEach(f=>f.addEventListener('submit',e=>{
+  e.preventDefault();
+  const o=f.querySelector('.ok');
+  if(o){o.hidden=false;o.style.display='block'}
+  const btn=f.querySelector('button');
+  if(btn){btn.disabled=true;btn.textContent='已成功送出 · Thank you!'}
+}));
+
+if(location.hash.includes('shot'))document.querySelectorAll('.rv').forEach(e=>e.classList.add('in'));
+addEventListener('scroll',()=>document.documentElement.style.setProperty('--sy',scrollY),{passive:true});
+
+// 4. 2027.01.23 倒數計時器
+const weddingDate = new Date('2027-01-23T00:00:00+08:00').getTime();
+const updateCd = () => {
+  const now = new Date().getTime();
+  const diff = weddingDate - now;
+  if(diff <= 0) {
+    document.querySelectorAll('.cd-val-d').forEach(e=>e.textContent='0');
+    document.querySelectorAll('.cd-val-h').forEach(e=>e.textContent='0');
+    document.querySelectorAll('.cd-val-m').forEach(e=>e.textContent='0');
+    document.querySelectorAll('.cd-val-s').forEach(e=>e.textContent='0');
+    return;
+  }
+  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const s = Math.floor((diff % (1000 * 60)) / 1000);
+  document.querySelectorAll('.cd-val-d').forEach(e=>e.textContent=d);
+  document.querySelectorAll('.cd-val-h').forEach(e=>e.textContent=String(h).padStart(2,'0'));
+  document.querySelectorAll('.cd-val-m').forEach(e=>e.textContent=String(m).padStart(2,'0'));
+  document.querySelectorAll('.cd-val-s').forEach(e=>e.textContent=String(s).padStart(2,'0'));
+};
+setInterval(updateCd, 1000);
+updateCd();
+
+// 5. 相片燈箱功能 (Lightbox)
+const lb = document.getElementById('lightbox');
+const lbImg = document.getElementById('lbImg');
+const lbCap = document.getElementById('lbCap');
+const lbClose = document.getElementById('lbClose');
+const lbPrev = document.getElementById('lbPrev');
+const lbNext = document.getElementById('lbNext');
+
+let galleryItems = [];
+let currentIdx = 0;
+
+const initLightbox = () => {
+  const photoEls = [...document.querySelectorAll('.gal>div, .story-photo, .fr .img')];
+  galleryItems = photoEls.map(el => {
+    const img = el.querySelector('img');
+    const span = el.querySelector('span, b, .zh');
+    return {
+      src: img ? img.src : '',
+      cap: span ? span.textContent.trim() : (el.getAttribute('data-cap') || 'Christy & Tim · Wedding Moments')
+    };
+  }).filter(item => item.src);
+
+  photoEls.forEach(el => {
+    el.addEventListener('click', () => {
+      const img = el.querySelector('img');
+      if(!img) return;
+      const idx = galleryItems.findIndex(item => item.src === img.src);
+      if(idx !== -1) openLightbox(idx);
+    });
+  });
+};
+
+const openLightbox = (idx) => {
+  currentIdx = idx;
+  lbImg.src = galleryItems[currentIdx].src;
+  lbCap.textContent = galleryItems[currentIdx].cap;
+  lb.classList.add('open');
+};
+
+const closeLightbox = () => lb.classList.remove('open');
+const showPrev = (e) => { e.stopPropagation(); currentIdx = (currentIdx - 1 + galleryItems.length) % galleryItems.length; openLightbox(currentIdx); };
+const showNext = (e) => { e.stopPropagation(); currentIdx = (currentIdx + 1) % galleryItems.length; openLightbox(currentIdx); };
+
+if(lbClose) lbClose.addEventListener('click', closeLightbox);
+if(lbPrev) lbPrev.addEventListener('click', showPrev);
+if(lbNext) lbNext.addEventListener('click', showNext);
+if(lb) lb.addEventListener('click', (e) => { if(e.target === lb || e.target === lbImg) closeLightbox(); });
+document.addEventListener('keydown', (e) => {
+  if(!lb.classList.contains('open')) return;
+  if(e.key === 'Escape') closeLightbox();
+  if(e.key === 'ArrowLeft') showPrev(e);
+  if(e.key === 'ArrowRight') showNext(e);
+});
+setTimeout(initLightbox, 200);
+
+// 6. 加入日曆 iCal (.ics) 下載功能
+window.downloadICS = function() {
+  const icsData = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Christy & Tim//Wedding 2027//ZH',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    'UID:wedding-christy-tim-20270123@wedding',
+    'DTSTAMP:20261017T000000Z',
+    'DTSTART;VALUE=DATE:20270123',
+    'DTEND;VALUE=DATE:20270124',
+    'SUMMARY:Christy & Tim 婚禮慶典 · Wedding Day',
+    'DESCRIPTION:0123 ↔ 0321 由 3.21 到 1.23，倒轉都係我哋。誠邀見證 Christy & Tim 婚禮！',
+    'LOCATION:Hong Kong (Venue TBC)',
+    'STATUS:CONFIRMED',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+  const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'christy-tim-wedding-20270123.ics';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
+
+// 7. 輕柔浪漫鋼琴和弦 BGM (Web Audio API 合成，零外部依賴)
+let audioCtx = null;
+let isPlaying = false;
+let bgmTimer = null;
+const bgmBtn = document.getElementById('bgmBtn');
+
+const weddingMelody = [
+  // Canon / Romantic chords: D - A - Bm - F#m - G - D - G - A
+  {f: 293.66, d: 1.6}, {f: 369.99, d: 0.8}, {f: 440.00, d: 0.8},
+  {f: 220.00, d: 1.6}, {f: 329.63, d: 0.8}, {f: 440.00, d: 0.8},
+  {f: 246.94, d: 1.6}, {f: 293.66, d: 0.8}, {f: 369.99, d: 0.8},
+  {f: 185.00, d: 1.6}, {f: 277.18, d: 0.8}, {f: 369.99, d: 0.8},
+  {f: 196.00, d: 1.6}, {f: 293.66, d: 0.8}, {f: 392.00, d: 0.8},
+  {f: 146.83, d: 1.6}, {f: 293.66, d: 0.8}, {f: 369.99, d: 0.8},
+  {f: 196.00, d: 1.6}, {f: 246.94, d: 0.8}, {f: 293.66, d: 0.8},
+  {f: 220.00, d: 2.4}
+];
+
+function playNote(freq, dur, time) {
+  if(!audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(freq, time);
+  
+  // 柔和淡入淡出鋼琴包絡
+  gain.gain.setValueAtTime(0.001, time);
+  gain.gain.exponentialRampToValueAtTime(0.08, time + 0.05);
+  gain.gain.exponentialRampToValueAtTime(0.0001, time + dur);
+  
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start(time);
+  osc.stop(time + dur);
+}
+
+function startMusicLoop() {
+  if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  
+  let now = audioCtx.currentTime + 0.1;
+  weddingMelody.forEach(note => {
+    playNote(note.f, note.d, now);
+    playNote(note.f * 1.5, note.d * 0.8, now + 0.1);
+    now += note.d * 0.7;
+  });
+  
+  const totalDur = (now - audioCtx.currentTime) * 1000;
+  bgmTimer = setTimeout(() => {
+    if(isPlaying) startMusicLoop();
+  }, totalDur);
+}
+
+if(bgmBtn) {
+  bgmBtn.addEventListener('click', () => {
+    if(!isPlaying) {
+      isPlaying = true;
+      bgmBtn.classList.add('playing');
+      bgmBtn.setAttribute('title', '點擊暫停背景音樂');
+      startMusicLoop();
+    } else {
+      isPlaying = false;
+      bgmBtn.classList.remove('playing');
+      bgmBtn.setAttribute('title', '點擊播放浪漫背景音樂');
+      clearTimeout(bgmTimer);
+    }
+  });
+}
+</script><script>const env=document.getElementById('env'),e=document.getElementById('envl');const go=()=>{e.classList.add('crack');setTimeout(()=>e.classList.add('open'),500);setTimeout(()=>env.classList.add('done'),1700)};e.addEventListener('click',go);setTimeout(go,2600);if(location.hash.includes('shot'))env.remove();</script><script>if(location.hash.includes('shot'))document.documentElement.classList.add('shot');(()=>{const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;const b=document.querySelector('.mband'),c=document.getElementById('mcoin'),r=document.getElementById('mrefl');if(!b)return;
+let t=0,cur=0;const tick=()=>{const rc=b.getBoundingClientRect(),p=Math.min(1,Math.max(0,-rc.top/(rc.height-innerHeight)));t=p*180;cur+=(t-cur)*(RM?1:.12);c.style.transform=`rotateY(${cur}deg)`;r.textContent=cur>90?'3.21':'1.23';if(Math.abs(t-cur)>.1)requestAnimationFrame(tick);else ticking=false};
+let ticking=false;addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(tick)}},{passive:true});
+if(location.hash.includes('shot')){c.style.transform='rotateY(20deg)'}})();</script><script>(()=>{const v=document.querySelector('.vine'),p=document.getElementById('vp'),L=p.getTotalLength(),lf=[...v.querySelectorAll('.lf')];p.style.strokeDasharray=L;
+const up=()=>{const r=v.getBoundingClientRect();let k=Math.min(1,Math.max(0,(innerHeight*.8-r.top)/r.height));if(location.hash.includes('shot')||matchMedia('(prefers-reduced-motion: reduce)').matches)k=1;p.style.strokeDashoffset=L*(1-k);lf.forEach(e=>e.style.opacity=k>e.dataset.at?1:0)};
+let tk=false;addEventListener('scroll',()=>{if(!tk){tk=true;requestAnimationFrame(()=>{up();tk=false})}},{passive:true});up()})();</script></body></html>
