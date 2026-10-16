@@ -17,6 +17,10 @@ form.rsvp input,form.rsvp select,form.rsvp textarea{font:inherit;padding:12px 14
 form.rsvp select option{color:#222}
 details{border-bottom:1px solid currentColor;padding:18px 0}details summary{cursor:pointer;list-style:none;font-weight:500}details p{margin-top:10px;opacity:.8;line-height:1.8}
 
+/* 個人化賓客專屬卡片 (Personalized Guest Badge) */
+.guest-box{display:none;margin:12px auto 20px;padding:8px 20px;border-radius:30px;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);border:1px solid currentColor;max-width:max-content;font-size:14px;letter-spacing:.15em;animation:glowGuest 3s infinite alternate}
+@keyframes glowGuest{from{box-shadow:0 0 10px rgba(255,255,255,.1)}to{box-shadow:0 0 25px rgba(212,168,73,.45)}}
+
 /* 相片畫廊 Gallery */
 .gal{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .gal>div{aspect-ratio:4/5;border-radius:8px;position:relative;overflow:hidden;cursor:pointer;background:#222}
@@ -51,6 +55,12 @@ details{border-bottom:1px solid currentColor;padding:18px 0}details summary{curs
 .bgm-btn:hover .bgm-tooltip{opacity:1}
 @keyframes spinMusic{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 
+/* 慶祝祝賀按鈕 (Celebration Confetti) */
+.celebrate-btn{position:fixed;bottom:24px;right:22px;z-index:90;padding:12px 20px;border-radius:30px;background:linear-gradient(135deg,#c8102e,#d4a849);color:#fff;font-family:'Plus Jakarta Sans','Noto Serif TC',serif;font-size:13px;letter-spacing:.15em;font-weight:600;display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.5);transition:all .3s}
+.celebrate-btn:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 15px 35px rgba(212,168,73,.5)}
+.celebrate-btn:active{transform:scale(.96)}
+#confettiCanvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:99}
+
 /* 全螢幕相片燈箱 (Lightbox) */
 .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s;padding:24px}
 .lightbox.open{opacity:1;pointer-events:auto}
@@ -71,6 +81,7 @@ details{border-bottom:1px solid currentColor;padding:18px 0}details summary{curs
   section{padding:80px 6vw}.grid2{grid-template-columns:1fr}
   .gal{grid-template-columns:1fr 1fr}
   .lightbox .lb-prev{left:10px}.lightbox .lb-next{right:10px}
+  .celebrate-btn{bottom:18px;right:16px;padding:10px 16px;font-size:12px}
 }
 @media(max-width:480px){
   .gal{grid-template-columns:1fr}
@@ -102,6 +113,13 @@ COMMON_JS = '''
   </svg>
 </div>
 
+<!-- 送上祝福互動按鈕與畫布 -->
+<canvas id="confettiCanvas"></canvas>
+<button class="celebrate-btn" id="celebrateBtn" type="button">
+  <span>🥂 送上祝福</span>
+  <span id="wishCountBadge" style="background:rgba(255,255,255,.2);padding:2px 7px;border-radius:10px;font-size:11px">168</span>
+</button>
+
 <script>
 // 1. 視口滾動動畫觀察器
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
@@ -127,6 +145,7 @@ document.querySelectorAll('form.rsvp').forEach(f=>f.addEventListener('submit',e=
   if(o){o.hidden=false;o.style.display='block'}
   const btn=f.querySelector('button');
   if(btn){btn.disabled=true;btn.textContent='已成功送出 · Thank you!'}
+  triggerConfetti(window.innerWidth/2, window.innerHeight*0.7);
 }));
 
 if(location.hash.includes('shot'))document.querySelectorAll('.rv').forEach(e=>e.classList.add('in'));
@@ -156,7 +175,97 @@ const updateCd = () => {
 setInterval(updateCd, 1000);
 updateCd();
 
-// 5. 相片燈箱功能 (Lightbox)
+// 5. 專屬賓客姓名解析 (Personalized URL ?to=名稱 或 ?guest=名稱)
+const urlParams = new URLSearchParams(window.location.search);
+const guestName = urlParams.get('to') || urlParams.get('guest');
+if(guestName) {
+  document.querySelectorAll('.guest-name-slot').forEach(el => {
+    el.textContent = guestName;
+  });
+  document.querySelectorAll('.guest-box').forEach(el => {
+    el.style.display = 'inline-block';
+  });
+  const nameInput = document.querySelector('form.rsvp input[placeholder*="你的名字"]');
+  if(nameInput && !nameInput.value) nameInput.value = guestName;
+}
+
+// 6. 送上祝福特效 (Canvas Confetti & Particles)
+const canvas = document.getElementById('confettiCanvas');
+const ctx = canvas ? canvas.getContext('2d') : null;
+let particles = [];
+
+function resizeCanvas() {
+  if(!canvas) return;
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function triggerConfetti(originX, originY) {
+  if(!canvas || !ctx) return;
+  const colors = ['#d4a849', '#f7e3a1', '#c8102e', '#ffffff', '#e8cfc4', '#8fa587'];
+  for(let i=0; i<50; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 4 + Math.random() * 8;
+    particles.push({
+      x: originX || window.innerWidth - 60,
+      y: originY || window.innerHeight - 60,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - 3,
+      size: 4 + Math.random() * 6,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      alpha: 1,
+      rotation: Math.random() * 360,
+      rotSpeed: (Math.random() - 0.5) * 10
+    });
+  }
+}
+
+function updateParticles() {
+  if(!ctx || !canvas) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for(let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.2; // 重力
+    p.alpha -= 0.012;
+    p.rotation += p.rotSpeed;
+    
+    if(p.alpha <= 0) {
+      particles.splice(i, 1);
+      continue;
+    }
+    
+    ctx.save();
+    ctx.globalAlpha = p.alpha;
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rotation * Math.PI / 180);
+    ctx.fillStyle = p.color;
+    ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size * 1.5);
+    ctx.restore();
+  }
+  requestAnimationFrame(updateParticles);
+}
+requestAnimationFrame(updateParticles);
+
+let wishCount = parseInt(localStorage.getItem('ct_wishes') || '168', 10);
+const wishBadge = document.getElementById('wishCountBadge');
+if(wishBadge) wishBadge.textContent = wishCount;
+
+const celBtn = document.getElementById('celebrateBtn');
+if(celBtn) {
+  celBtn.addEventListener('click', (e) => {
+    wishCount += 1;
+    localStorage.setItem('ct_wishes', wishCount);
+    if(wishBadge) wishBadge.textContent = wishCount;
+    const r = celBtn.getBoundingClientRect();
+    triggerConfetti(r.left + r.width/2, r.top);
+  });
+}
+
+// 7. 相片燈箱功能 (Lightbox)
 const lb = document.getElementById('lightbox');
 const lbImg = document.getElementById('lbImg');
 const lbCap = document.getElementById('lbCap');
@@ -211,7 +320,7 @@ document.addEventListener('keydown', (e) => {
 });
 setTimeout(initLightbox, 200);
 
-// 6. 加入日曆 iCal (.ics) 下載功能
+// 8. 加入日曆 iCal (.ics) 下載功能
 window.downloadICS = function() {
   const icsData = [
     'BEGIN:VCALENDAR',
@@ -242,7 +351,7 @@ window.downloadICS = function() {
   URL.revokeObjectURL(url);
 };
 
-// 7. 輕柔浪漫鋼琴和弦 BGM (Web Audio API 合成，零外部依賴)
+// 9. 輕柔浪漫鋼琴和弦 BGM (Web Audio API 合成，零外部依賴)
 let audioCtx = null;
 let isPlaying = false;
 let bgmTimer = null;
@@ -267,7 +376,6 @@ function playNote(freq, dur, time) {
   osc.type = 'triangle';
   osc.frequency.setValueAtTime(freq, time);
   
-  // 柔和淡入淡出鋼琴包絡
   gain.gain.setValueAtTime(0.001, time);
   gain.gain.exponentialRampToValueAtTime(0.08, time + 0.05);
   gain.gain.exponentialRampToValueAtTime(0.0001, time + dur);
@@ -326,6 +434,11 @@ def countdown_html(title="WEDDING COUNTDOWN · 婚禮倒計時"):
   </div>
 </div>'''
 
+def guest_greeting_html(default_label="誠邀親朋好友"):
+    return f'''<div class="guest-box num">
+  <span>DEAR </span><strong class="guest-name-slot">{default_label}</strong><span> · 誠邀光臨</span>
+</div>'''
+
 def calendar_html():
     gcal_url = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Christy+%26+Tim+Wedding+%E5%A9%9A%E7%A6%AE%E5%BA%86%E5%85%B8&dates=20270123T030000Z/20270123T150000Z&details=0123+%E2%86%94+0321+%E7%94%B1+3.21+%E5%88%B0+1.23%EF%BC%8C%E5%80%92%E8%BD%89%E9%83%BD%E4%BF%82%E6%88%91%E5%93%87%E3%80%82Christy+%26+Tim+%E7%B5%90%E5%A9%9A%E5%A4%A7%E5%96%9C%E4%B9%8B%E6%97%A5%EF%BC%81&location=Hong+Kong"
     return f'''<div class="cal-actions rv">
@@ -360,6 +473,7 @@ def rsvp(btn):
     return f'''<form class="rsvp rv"><label>姓名 Name<input required placeholder="你的名字 Your name"></label>
 <label>出席 Attendance<select><option>欣然出席 Joyfully attend</option><option>未能出席 Regretfully decline</option></select></label>
 <label>人數 Guests<input class="num" type="number" min="1" max="6" value="1"></label>
+<label>晚宴點歌 Song Request 🎶<input placeholder="你最想在晚宴聽到邊首歌？ Favorite song for party"></label>
 <label>飲食需要 Dietary notes<textarea rows="3" placeholder="素食 / 過敏 / 其他備註 Vegetarian / allergies"></textarea></label>
 <button class="{btn}">送出回覆 Send RSVP</button><p class="ok zh" hidden style="color:#d4a849;font-weight:700;margin-top:10px">多謝你的回覆！我們期待在 2027.01.23 與你相聚！❤️<br><span style="font-size:12px;opacity:.8">（示範表單，已收錄回覆）</span></p></form>'''
 

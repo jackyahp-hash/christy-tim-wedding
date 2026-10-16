@@ -80,6 +80,7 @@ gal = ''.join(f'''<div class="rv" data-cap="{cap}">
 body = f'''<div id="env"><div><div class="envl tilt" id="envl"><div class="fl"></div><div class="wax">{wax}</div><p>CLICK THE SEAL · 撳火漆印開信</p></div></div></div>
 <section class="hero">{flower('-40px','8%',300,10)}{flower('78%','58%',340,-30,'#b8c4a6','#dde3cf')}{flower('82%','2%',180,50)}{flower('4%','70%',200,80,'#d8b874','#efe0bd')}
 <div class="rv"><p style="letter-spacing:.5em;font-size:14px" class="zh">TOGETHER WITH THEIR FAMILIES · 誠邀</p>
+{guest_greeting_html()}
 <h1>Christy<em>&amp;</em>Tim</h1>
 <div class="mirror"><span class="num">1.23</span><span class="bar"></span><span style="font-style:italic;color:#b59a6b">mirrored</span><span class="bar"></span><span class="num">3.21</span></div>
 <p style="margin-top:22px;letter-spacing:.3em"><span class="num">SAT 23 JAN 2027</span> · <span class="zh">地點待定 Venue TBC</span></p></div></section>

@@ -67,6 +67,7 @@ gal = ''.join(f'''<div class="rv" data-cap="{cap}">
 body = f'''<div id="intro"><div class="cd gold num"><span style="animation-delay:.1s">1</span> <span style="animation-delay:.6s">2</span> <span style="animation-delay:1.1s">3</span></div></div>
 <section class="hero"><div class="pat"></div><div>
 <div class="card tilt" id="card"><div class="inner"><div>
+{guest_greeting_html()}
 <p class="zh" style="letter-spacing:.5em;opacity:.8">謹訂於</p>
 <div class="names gold zh">Christy<br><span style="font-size:.5em">&amp;</span><br>Tim</div>
 <div class="mir num gold"><span>1·2·3</span><span style="font-size:16px">↔</span><span>3·2·1</span></div>

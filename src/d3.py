@@ -96,8 +96,9 @@ body = f'''<div class="grain"></div><div id="lead"><div style="position:relative
 <div class="film"><div class="frames">{frames}</div></div><p class="zh" style="text-align:center;margin-top:14px;font-size:12px;opacity:.5;letter-spacing:.2em">← 左右拖動 SWIPE 膠卷 · 點擊相片放大 →</p></section>
 
 <section><div class="wrap"><div class="sh rv"><span class="n num">02</span><h2>Boarding Pass</h2><span class="zh">登機證 · 邀請</span></div>
-<div class="pass tilt rv"><div class="main"><div class="lab">INVITATION · 誠邀閣下登上愛情航班</div><div class="route"><span class="c">CHRISTY &amp; TIM</span><span class="ln"></span><span class="c">FOREVER</span></div>
-<div class="pf"><div><div class="lab">DATE</div><div class="v num">2027.01.23</div></div><div><div class="lab">BOARDING</div><div class="v num">15:30</div></div><div><div class="lab">FLIGHT</div><div class="v num">CT0123</div></div><div><div class="lab">GATE</div><div class="v zh">LOVE01</div></div></div></div>
+<div class="pass tilt rv"><div class="main"><div class="lab">INVITATION · 誠邀閣下登上愛情航班</div>{guest_greeting_html("貴賓 GUEST")}
+<div class="route"><span class="c">CHRISTY &amp; TIM</span><span class="ln"></span><span class="c">FOREVER</span></div>
+<div class="pf"><div><div class="lab">PASSENGER</div><div class="v zh guest-name-slot">貴賓 GUEST</div></div><div><div class="lab">DATE</div><div class="v num">2027.01.23</div></div><div><div class="lab">BOARDING</div><div class="v num">15:30</div></div><div><div class="lab">FLIGHT</div><div class="v num">CT0123</div></div><div><div class="lab">GATE</div><div class="v zh">LOVE01</div></div></div></div>
 <div class="stub"><div><div class="lab">SEAT</div><div class="v num">03 · 21</div></div>{stamp}<div class="bars"></div></div></div></div></section>
 
 <section><div class="wrap"><div class="sh rv"><span class="n num">03</span><h2>The Day</h2><span class="zh">婚禮詳情</span></div><div class="grid2">
